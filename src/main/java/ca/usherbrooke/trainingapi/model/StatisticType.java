@@ -1,0 +1,27 @@
+package ca.usherbrooke.trainingapi.model;
+
+public enum StatisticType {
+    DISTANCE,
+    TIME,
+    SPEED,
+    HEART_RATE,
+    POWER,
+    CADENCE,
+    TEMPERATURE,
+    HUMIDITY,
+    WIND_SPEED,
+    ELEVATION_GAIN,
+    ELEVATION_LOSS,
+    CALORIES_BURNED,
+    STROKE_COUNT,
+    STROKE_RATE,
+    SWOLF,
+    PACE,
+    SPLIT_TIME,
+    LAP_TIME,
+    SCORE,
+    PRECISION,
+    ACCURACY,
+    REACTION_TIME,
+    UNKNOWN,
+}
