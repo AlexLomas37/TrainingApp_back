@@ -1,11 +1,11 @@
 package ca.usherbrooke.trainingapi.controller;
 
 import ca.usherbrooke.trainingapi.model.Exercice;
+import ca.usherbrooke.trainingapi.model.Training;
 import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
+import ca.usherbrooke.trainingapi.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Contrôleur gérant les opérations liées aux exercices.
@@ -18,6 +18,12 @@ public class ExerciceController {
      */
     @Autowired
     private ExerciceRepository exerciceRepository;
+
+    /**
+     * Repository pour accéder aux données des entraînements.
+     */
+    @Autowired
+    private TrainingRepository trainingRepository;
 
     /**
      * Récupère la liste de tous les exercices.
@@ -38,5 +44,70 @@ public class ExerciceController {
     @GetMapping("/exercices/{id}")
     public Exercice getExerciceById(@PathVariable int id) {
         return exerciceRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * Crée un nouvel exercice.
+     *
+     * @param exercice l'exercice à créer
+     * @return l'exercice créé
+     */
+    @PostMapping("/exercices")
+    public Exercice createExercice(@RequestBody Exercice exercice) {
+        Training training = exerciceRepository
+                .findById(exercice.getTraining().getId())
+                .orElseThrow(() -> new RuntimeException("Entrainement non trouvé")).getTraining();
+        exercice.setTraining(training);
+        return exerciceRepository.save(exercice);
+    }
+
+    /**
+     * Met à jour un exercice existant.
+     *
+     * @param id l'identifiant de l'exercice à mettre à jour
+     * @param exercice les nouvelles données de l'exercice
+     * @return l'exercice mis à jour
+     */
+    @PutMapping("/exercices/{id}")
+    public Exercice updateExercice(@PathVariable int id, @RequestBody Exercice exercice) {
+        Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
+        if (existingExercice != null) {
+            existingExercice.setName(exercice.getName());
+            existingExercice.setDescription(exercice.getDescription());
+            return exerciceRepository.save(existingExercice);
+        }
+        return null;
+    }
+
+    /**
+     * Met à jour partiellement un exercice existant.
+     *
+     * @param id l'identifiant de l'exercice à mettre à jour
+     * @param exercice les nouvelles données de l'exercice
+     * @return l'exercice mis à jour
+     */
+    @PatchMapping("/exercices/{id}")
+    public Exercice patchExercice(@PathVariable int id, @RequestBody Exercice exercice) {
+        Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
+        if (existingExercice != null) {
+            if (exercice.getName() != null) {
+                existingExercice.setName(exercice.getName());
+            }
+            if (exercice.getDescription() != null) {
+                existingExercice.setDescription(exercice.getDescription());
+            }
+            return exerciceRepository.save(existingExercice);
+        }
+        return null;
+    }
+
+    /**
+     * Supprime un exercice par son identifiant.
+     *
+     * @param id l'identifiant de l'exercice à supprimer
+     */
+    @DeleteMapping("/exercices/{id}")
+    public void deleteExercice(@PathVariable int id) {
+        exerciceRepository.deleteById(id);
     }
 }
