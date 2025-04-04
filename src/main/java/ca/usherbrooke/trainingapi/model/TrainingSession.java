@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Représente une session d'entrainement.
@@ -20,8 +22,10 @@ public class TrainingSession {
     private Training training;
     private LocalDateTime start;
     private LocalDateTime end;
-    @OneToMany(mappedBy = "trainingSession")
-    private List<ExerciceSession> exercicesSessions;
+    @ElementCollection
+    @MapKeyColumn(name = "type_de_stat")
+    @Column(name = "valeur")
+    private Map<StatisticType, String> statisticsMap;
 
     /**
      * Constructeur par défaut.
@@ -31,7 +35,7 @@ public class TrainingSession {
         this.training = null;
         this.start = null;
         this.end = null;
-        this.exercicesSessions = new ArrayList<>();
+        this.statisticsMap = new HashMap<>();
     }
 
     /**
@@ -98,20 +102,39 @@ public class TrainingSession {
     }
 
     /**
-     * Retourne la liste des sessions d'exercice associées.
+     * Retourne la carte des statistiques de la session.
      *
-     * @return la liste des sessions d'exercice
+     * @return la carte des statistiques
      */
-    public List<ExerciceSession> getExercicesSessions() {
-        return exercicesSessions;
+    public Map<StatisticType, String> getStatisticsMap() {
+        return statisticsMap;
     }
 
     /**
-     * Définit la liste des sessions d'exercice associées.
+     * Définit la carte des statistiques de la session.
      *
-     * @param exercicesSessions la liste à définir
+     * @param statisticsMap la carte des statistiques à définir
      */
-    public void setExercicesSessions(List<ExerciceSession> exercicesSessions) {
-        this.exercicesSessions = exercicesSessions;
+    public void setStatisticsMap(Map<StatisticType, String> statisticsMap) {
+        this.statisticsMap = statisticsMap;
+    }
+
+    /**
+     * Ajoute une statistique à la session.
+     *
+     * @param type le type de statistique
+     * @param value la valeur de la statistique
+     */
+    public void addStatistic(StatisticType type, String value) {
+        this.statisticsMap.put(type, value);
+    }
+
+    /**
+     * Supprime une statistique de la session.
+     *
+     * @param type le type de statistique à supprimer
+     */
+    public void removeStatistic(StatisticType type) {
+        this.statisticsMap.remove(type);
     }
 }
