@@ -54,9 +54,9 @@ public class ExerciceController {
      */
     @PostMapping("/exercices")
     public Exercice createExercice(@RequestBody Exercice exercice) {
-        Training training = exerciceRepository
+        Training training = trainingRepository
                 .findById(exercice.getTraining().getId())
-                .orElseThrow(() -> new RuntimeException("Entrainement non trouvé")).getTraining();
+                .orElseThrow(() -> new RuntimeException("Entrainement non trouvé"));
         exercice.setTraining(training);
         return exerciceRepository.save(exercice);
     }
@@ -96,6 +96,19 @@ public class ExerciceController {
             if (exercice.getDescription() != null) {
                 existingExercice.setDescription(exercice.getDescription());
             }
+            if (exercice.getTime() > 0) {
+                existingExercice.setTime(exercice.getTime());
+            }
+            if(exercice.getRepetitions() >= 0) {
+                existingExercice.setRepetitions(exercice.getRepetitions());
+            }
+            if(exercice.getTraining() != null) {
+                Training training = trainingRepository
+                        .findById(exercice.getTraining().getId())
+                        .orElseThrow(() -> new RuntimeException("Entrainement non trouvé"));
+                existingExercice.setTraining(training);
+            }
+
             return exerciceRepository.save(existingExercice);
         }
         return null;
