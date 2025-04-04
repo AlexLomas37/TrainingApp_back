@@ -4,6 +4,7 @@ import ca.usherbrooke.trainingapi.model.Discipline;
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.Training;
 import ca.usherbrooke.trainingapi.repository.DisciplineRepository;
+import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
 import ca.usherbrooke.trainingapi.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class TrainingController {
     private TrainingRepository trainingRepository;
     @Autowired
     private DisciplineRepository disciplineRepository;
+    @Autowired
+    private ExerciceRepository exerciceRepository;
 
     /**
      * Récupère la liste de tous les entraînements.
@@ -87,6 +90,12 @@ public class TrainingController {
             }
             if (training.getTime() != 0) {
                 existingTraining.setTime(training.getTime());
+            }
+            if (training.getDiscipline() != null) {
+                Discipline discipline = disciplineRepository
+                        .findById(training.getDiscipline().getId())
+                        .orElseThrow(() -> new RuntimeException("Discipline non trouvée"));
+                existingTraining.setDiscipline(discipline);
             }
             return trainingRepository.save(existingTraining);
         }
