@@ -39,6 +39,21 @@ public class TrainingSession {
     }
 
     /**
+     * Constructeur avec paramètres.
+     *
+     * @param training le training associé à cette session
+     * @param start la date et l'heure de début de la session
+     * @param end la date et l'heure de fin de la session
+     * @param statistics la carte des statistiques associées à cette session
+     */
+    public TrainingSession(Training training, LocalDateTime start, LocalDateTime end, Map<StatisticType, String> statistics) {
+        this.training = training;
+        this.start = start;
+        this.end = end;
+        this.statisticsMap = new HashMap<>(statistics);
+        }
+
+    /**
      * Retourne l'identifiant de la session d'entraînement.
      *
      * @return l'identifiant de la session
