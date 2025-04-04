@@ -1,8 +1,14 @@
 package ca.usherbrooke.trainingapi.model;
 
+import ca.usherbrooke.trainingapi.controller.StatisticTypeController;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Modèle représentant un exercice.
@@ -22,9 +28,15 @@ public class Exercice {
     @JoinColumn(name = "training_id")
     private Training training;
 
+    @ElementCollection
+    @MapKeyColumn(name = "type_de_stat")
+    @Column(name = "valeur")
+    private Map<StatisticType, String> statisticsMap;
+
     public Exercice() {
         super();
         this.training = null;
+        this.statisticsMap = new HashMap<>();
     }
 
     public int getId() {
@@ -69,5 +81,21 @@ public class Exercice {
 
     public void setTraining(Training training) {
         this.training = training;
+    }
+
+    public Map<StatisticType, String> getStatisticsMap() {
+        return statisticsMap;
+    }
+
+    public void setStatisticsMap(Map<StatisticType, String> statisticsMap) {
+        this.statisticsMap = statisticsMap;
+    }
+
+    public void addStatistic(ExerciceStatistic statistic) {
+        this.statisticsMap.put(statistic.getKeyStat(), statistic.getValue());
+    }
+
+    public void removeStatistic(StatisticType key) {
+        this.statisticsMap.remove(key);
     }
 }
