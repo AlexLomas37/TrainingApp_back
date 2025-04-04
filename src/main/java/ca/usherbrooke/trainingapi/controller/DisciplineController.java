@@ -12,6 +12,7 @@ import java.util.Objects;
  * Contrôleur pour gérer les opérations CRUD sur les disciplines.
  */
 @RestController
+@RequestMapping("/disciplines")
 public class DisciplineController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class DisciplineController {
      *
      * @return la liste des disciplines
      */
-    @GetMapping("/disciplines")
+    @GetMapping
     public Iterable<Discipline> getDisciplines() {
         return disciplineRepository.findAll();
     }
@@ -33,7 +34,7 @@ public class DisciplineController {
      * @param discipline la discipline à créer
      * @return la discipline créée
      */
-    @PostMapping("/disciplines")
+    @PostMapping
     public Discipline createDiscipline(@RequestBody Discipline discipline) {
         return disciplineRepository.save(discipline);
     }
@@ -44,7 +45,7 @@ public class DisciplineController {
      * @param id l'identifiant de la discipline
      * @return la discipline correspondante ou null
      */
-    @GetMapping("/disciplines/{id}")
+    @GetMapping("/{id}")
     public Discipline getDisciplineById(@PathVariable int id) {
         return disciplineRepository.findById(id).orElse(null);
     }
@@ -56,7 +57,7 @@ public class DisciplineController {
      * @param discipline les nouvelles données de la discipline
      * @return la discipline mise à jour ou null si introuvable
      */
-    @PutMapping("/disciplines/{id}")
+    @PutMapping("/{id}")
     public Discipline updateDiscipline(@PathVariable int id, @RequestBody Discipline discipline) {
         Discipline existingDiscipline = disciplineRepository.findById(id).orElse(null);
         if (existingDiscipline != null) {
@@ -75,7 +76,7 @@ public class DisciplineController {
      * @param discipline les données partiellement mises à jour
      * @return la discipline mise à jour ou null si introuvable
      */
-    @PatchMapping("/disciplines/{id}")
+    @PatchMapping("/{id}")
     public Discipline patchDiscipline(@PathVariable int id, @RequestBody Discipline discipline) {
         Discipline existingDiscipline = disciplineRepository.findById(id).orElse(null);
         if (existingDiscipline != null) {
@@ -98,7 +99,7 @@ public class DisciplineController {
      *
      * @param id l'identifiant de la discipline à supprimer
      */
-    @DeleteMapping("/disciplines/{id}")
+    @DeleteMapping("/{id}")
     public void deleteDiscipline(@PathVariable int id) {
         disciplineRepository.deleteById(id);
     }
@@ -109,7 +110,7 @@ public class DisciplineController {
      * @param id l'identifiant de la discipline
      * @return la liste des entraînements associés
      */
-    @GetMapping("/disciplines/{id}/trainings")
+    @GetMapping("/{id}/trainings")
     public Iterable<Training> getDisciplineTrainings(@PathVariable int id) {
         return Objects.requireNonNull(disciplineRepository.findById(id).orElse(null)).getTrainings();
     }

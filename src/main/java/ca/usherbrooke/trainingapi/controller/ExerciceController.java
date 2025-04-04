@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * Contrôleur gérant les opérations liées aux exercices.
  */
 @RestController
+@RequestMapping("/exercices")
 public class ExerciceController {
 
     /**
@@ -30,7 +31,7 @@ public class ExerciceController {
      *
      * @return la liste des exercices
      */
-    @GetMapping("/exercices")
+    @GetMapping
     public Iterable<Exercice> getExercices() {
         return exerciceRepository.findAll();
     }
@@ -41,7 +42,7 @@ public class ExerciceController {
      * @param id l'identifiant de l'exercice
      * @return l'exercice correspondant ou null
      */
-    @GetMapping("/exercices/{id}")
+    @GetMapping("/{id}")
     public Exercice getExerciceById(@PathVariable int id) {
         return exerciceRepository.findById(id).orElse(null);
     }
@@ -52,7 +53,7 @@ public class ExerciceController {
      * @param exercice l'exercice à créer
      * @return l'exercice créé
      */
-    @PostMapping("/exercices")
+    @PostMapping
     public Exercice createExercice(@RequestBody Exercice exercice) {
         Training training = trainingRepository
                 .findById(exercice.getTraining().getId())
@@ -68,7 +69,7 @@ public class ExerciceController {
      * @param exercice les nouvelles données de l'exercice
      * @return l'exercice mis à jour
      */
-    @PutMapping("/exercices/{id}")
+    @PutMapping("/{id}")
     public Exercice updateExercice(@PathVariable int id, @RequestBody Exercice exercice) {
         Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
         if (existingExercice != null) {
@@ -86,7 +87,7 @@ public class ExerciceController {
      * @param exercice les nouvelles données de l'exercice
      * @return l'exercice mis à jour
      */
-    @PatchMapping("/exercices/{id}")
+    @PatchMapping("/{id}")
     public Exercice patchExercice(@PathVariable int id, @RequestBody Exercice exercice) {
         Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
         if (existingExercice != null) {
@@ -119,7 +120,7 @@ public class ExerciceController {
      *
      * @param id l'identifiant de l'exercice à supprimer
      */
-    @DeleteMapping("/exercices/{id}")
+    @DeleteMapping("/{id}")
     public void deleteExercice(@PathVariable int id) {
         exerciceRepository.deleteById(id);
     }

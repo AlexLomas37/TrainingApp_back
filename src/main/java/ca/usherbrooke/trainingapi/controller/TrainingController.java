@@ -15,6 +15,7 @@ import java.util.Objects;
  * Contrôleur gérant les opérations liées aux entraînements.
  */
 @RestController
+@RequestMapping("/trainings")
 public class TrainingController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class TrainingController {
      *
      * @return la liste des entraînements
      */
-    @GetMapping("/trainings")
+    @GetMapping
     public Iterable<Training> getTrainings() {
         return trainingRepository.findAll();
     }
@@ -40,7 +41,7 @@ public class TrainingController {
      * @param id l'identifiant de l'entraînement
      * @return l'objet Training correspondant ou null
      */
-    @GetMapping("/trainings/{id}")
+    @GetMapping("/{id}")
     public Training getTrainingById(@PathVariable int id) {
         return trainingRepository.findById(id).orElse(null);
     }
@@ -51,7 +52,7 @@ public class TrainingController {
      * @param id l'identifiant de l'entraînement
      * @return les exercices associés à l'entraînement
      */
-    @GetMapping("/trainings/{id}/exercices")
+    @GetMapping("/{id}/exercices")
     public Iterable<Exercice> getTrainingExercices(@PathVariable int id) {
         return Objects.requireNonNull(trainingRepository.findById(id).orElse(null)).getExercices();
     }
@@ -62,7 +63,7 @@ public class TrainingController {
      * @param training l'entraînement à créer
      * @return l'entraînement créé
      */
-    @PostMapping("/trainings")
+    @PostMapping
     public Training createTraining(@RequestBody Training training) {
         Discipline discipline = disciplineRepository
                 .findById(training.getDiscipline().getId())
@@ -78,7 +79,7 @@ public class TrainingController {
      * @param training les nouvelles données de l'entraînement
      * @return l'entraînement mis à jour
      */
-    @PatchMapping("/trainings/{id}")
+    @PatchMapping("/{id}")
     public Training patchTraining(@PathVariable int id, @RequestBody Training training) {
         Training existingTraining = trainingRepository.findById(id).orElse(null);
         if (existingTraining != null) {
@@ -109,7 +110,7 @@ public class TrainingController {
      * @param training les nouvelles données de l'entraînement
      * @return l'entraînement mis à jour
      */
-    @PutMapping("/trainings/{id}")
+    @PutMapping("/{id}")
     public Training updateTraining(@PathVariable int id, @RequestBody Training training) {
         Training existingTraining = trainingRepository.findById(id).orElse(null);
         if (existingTraining != null) {
@@ -126,7 +127,7 @@ public class TrainingController {
      *
      * @param id l'identifiant de l'entraînement à supprimer
      */
-    @DeleteMapping("/trainings/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTraining(@PathVariable int id) {
         trainingRepository.deleteById(id);
     }
