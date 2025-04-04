@@ -91,8 +91,8 @@ public class Exercice {
         this.statisticsMap = statisticsMap;
     }
 
-    public void addStatistic(ExerciceStatistic statistic) {
-        this.statisticsMap.put(statistic.getKeyStat(), statistic.getValue());
+    public void addStatistic(StatisticType type, String value) {
+        this.statisticsMap.put(type, value);
     }
 
     public void removeStatistic(StatisticType key) {
