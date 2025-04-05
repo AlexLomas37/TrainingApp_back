@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StatisticsTrainingMatriceFactory implements StatisticsTrainingInterface {
+public class StatisticsTrainingMatrixFactory implements StatisticsTrainingInterface {
 
     @Autowired
     private TrainingSessionRepository trainingSessionRepository;
@@ -34,6 +34,7 @@ public class StatisticsTrainingMatriceFactory implements StatisticsTrainingInter
         if(dateDebut.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La date de début ne peut pas être dans le futur.");
         }
+
         Map<LocalDate, Boolean> statistiques = new HashMap<>();
 
         LocalDateTime dateDebutDateTime = dateDebut.atStartOfDay();
