@@ -3,7 +3,8 @@ package ca.usherbrooke.trainingapi.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Représente une session d'exercice comprenant les statistiques associées.
@@ -18,12 +19,13 @@ public class ExerciceSession {
     private Exercice exercice;
     private LocalDateTime start;
     private LocalDateTime end;
-    @OneToMany(mappedBy = "exerciceSession", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExerciceStatistic> statistics;
-
     @ManyToOne
     @JoinColumn(name = "training_session_id")
     private TrainingSession trainingSession;
+    @ElementCollection
+    @MapKeyColumn(name = "type_de_stat")
+    @Column(name = "valeur")
+    private Map<StatisticType, String> statisticsMap;
 
     /**
      * Constructeur par défaut.
@@ -33,6 +35,8 @@ public class ExerciceSession {
         this.exercice = null;
         this.start = null;
         this.end = null;
+        this.trainingSession = null;
+        this.statisticsMap = new HashMap<>();
     }
 
     /**
@@ -43,11 +47,12 @@ public class ExerciceSession {
      * @param end la date et l'heure de fin de la session
      * @param statistics la liste des statistiques associées à cette session
      */
-    public ExerciceSession(Exercice exercice, LocalDateTime start, LocalDateTime end, List<ExerciceStatistic> statistics) {
+    public ExerciceSession(Exercice exercice, LocalDateTime start, LocalDateTime end, Map<StatisticType, String> statistics, TrainingSession trainingSession) {
         this.exercice = exercice;
         this.start = start;
         this.end = end;
-        this.statistics = statistics;
+        this.trainingSession = trainingSession;
+        this.statisticsMap = new HashMap<>(statistics);
     }
 
     /**
@@ -114,44 +119,6 @@ public class ExerciceSession {
     }
 
     /**
-     * Retourne la liste des statistiques associées à cette session.
-     *
-     * @return la liste des statistiques
-     */
-    public List<ExerciceStatistic> getStatistics() {
-        return statistics;
-    }
-
-    /**
-     * Définit la liste des statistiques associées à cette session.
-     *
-     * @param statistics la liste des statistiques
-     */
-    public void setStatistics(List<ExerciceStatistic> statistics) {
-        this.statistics = statistics;
-    }
-
-    /**
-     * Ajoute une statistique à la session d'exercice.
-     *
-     * @param statistic la statistique à ajouter
-     */
-    public void addStatistic(ExerciceStatistic statistic) {
-        this.statistics.add(statistic);
-        statistic.setExerciceSession(this);
-    }
-
-    /**
-     * Supprime une statistique de la session d'exercice.
-     *
-     * @param statistic la statistique à supprimer
-     */
-    public void removeStatistic(ExerciceStatistic statistic) {
-        this.statistics.remove(statistic);
-        statistic.setExerciceSession(null);
-    }
-
-    /**
      * Retourne la session d'entraînement associée à cette session d'exercice.
      *
      * @return la session d'entraînement associée
@@ -169,6 +136,24 @@ public class ExerciceSession {
         this.trainingSession = trainingSession;
     }
 
+    /**
+     * Retourne la liste des statistiques associées à cette session d'exercice.
+     *
+     * @return la liste des statistiques
+     */
+    public Map<StatisticType, String> getStatisticsMap() {
+        return statisticsMap;
+    }
+
+    /**
+     * Définit la liste des statistiques associées à cette session d'exercice.
+     *
+     * @param statistics la liste des statistiques à associer
+     */
+    public void setStatisticsMap(Map<StatisticType, String> statistics) {
+        this.statisticsMap = statistics;
+    }
+
     @Override
     public String toString() {
         return "ExerciceSession{" +
@@ -176,9 +161,7 @@ public class ExerciceSession {
                 ", exercice=" + exercice +
                 ", start=" + start +
                 ", end=" + end +
-                ", statistics=" + statistics +
                 ", trainingSession=" + trainingSession +
                 '}';
     }
 }
-
