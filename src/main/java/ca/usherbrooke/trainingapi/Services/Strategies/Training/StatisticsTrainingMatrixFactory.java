@@ -46,15 +46,13 @@ public class StatisticsTrainingMatrixFactory implements StatisticsTrainingInterf
             System.out.println("Aucune session d'entraînement trouvée pour cette période.");
         } else {
             LocalDate currentDate = dateDebut;
-            while (!currentDate.isAfter(dateFin)) {
+            /*while (!currentDate.isAfter(dateFin)) {
                 statistiques.put(currentDate, false);
                 currentDate = currentDate.plusDays(1);
-            }
+            }*/
             for (TrainingSession session : trainingSessions) {
                 LocalDate dateSession = session.getStart().toLocalDate();
-                if (statistiques.containsKey(dateSession)) {
-                    statistiques.put(dateSession, true);
-                }
+                statistiques.put(dateSession, true);
             }
             System.out.println("Statistiques pour l'entraînement " + training.getId() + " entre " + dateDebut + " et " + dateFin + ":");
         }
