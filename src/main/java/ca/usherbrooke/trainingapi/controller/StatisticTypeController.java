@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -13,9 +14,9 @@ import java.util.stream.Collectors;
 public class StatisticTypeController {
 
     @GetMapping
-    public String getStatisticTypes() {
+    public List<String> getStatisticTypes() {
         return Arrays.stream(StatisticType.values())
                 .map(Enum::name)
-                .collect(Collectors.joining("; "));
+                .collect(Collectors.toList());
     }
 }
