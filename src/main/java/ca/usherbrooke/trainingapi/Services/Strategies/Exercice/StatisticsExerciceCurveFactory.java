@@ -38,11 +38,9 @@ public class StatisticsExerciceCurveFactory implements StatisticsExerciceInterfa
         if (exerciceSessions.isEmpty()) {
             System.out.println("Aucune session d'exercice trouvée pour cette période.");
         } else {
-
-            Map<StatisticType, String> allStatisticsMap = new HashMap<>();
-
             for (ExerciceSession session : exerciceSessions) {
                 LocalDate dateSession = session.getStart().toLocalDate();
+                Map<StatisticType, String> allStatisticsMap = statistiques.getOrDefault(dateSession, new HashMap<>());
                 for (Map.Entry<StatisticType, String> entry : session.getStatisticsMap().entrySet()) {
                     StatisticType type = entry.getKey();
                     String value = entry.getValue();
@@ -85,11 +83,9 @@ public class StatisticsExerciceCurveFactory implements StatisticsExerciceInterfa
         if (exerciceSessions.isEmpty()) {
             System.out.println("Aucune session d'exercice trouvée pour cette période.");
         } else {
-
-            Map<StatisticType, String> allStatisticsMap = new HashMap<>();
-
             for (ExerciceSession session : exerciceSessions) {
                 LocalDate dateSession = session.getStart().toLocalDate();
+                Map<StatisticType, String> allStatisticsMap = statistiques.getOrDefault(dateSession, new HashMap<>());
                 for (Map.Entry<StatisticType, String> entry : session.getStatisticsMap().entrySet()) {
                     StatisticType type = entry.getKey();
                     String value = entry.getValue();
