@@ -35,11 +35,11 @@ public class StatisticsController {
      * @return une carte contenant les dates et un booléen indiquant si l'entraînement a été effectué ce jour-là
      */
     @GetMapping("/trainings/matrix")
-    public Object getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+    public Map<LocalDate, Boolean> getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         Training train = trainingRepository
                 .findById(training.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Aucun entraînement trouvé avec cet ID: " + training.getId()));
-        return statisticsTrainingService.retournerStatistiques(train, startDate, endDate).toString();
+        return statisticsTrainingService.retournerStatistiques(train, startDate, endDate);
     }
 
     /**
