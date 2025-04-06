@@ -1,6 +1,7 @@
 package ca.usherbrooke.trainingapi.model;
 
 public enum StatisticType {
+    NONE,
     UNKNOWN,
     SCORE,
     PRECISION,
