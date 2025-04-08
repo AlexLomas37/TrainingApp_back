@@ -1,11 +1,8 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.model.Discipline;
+import ca.usherbrooke.trainingapi.Services.TrainingService;
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.Training;
-import ca.usherbrooke.trainingapi.repository.DisciplineRepository;
-import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
-import ca.usherbrooke.trainingapi.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +16,7 @@ import java.util.Objects;
 public class TrainingController {
 
     @Autowired
-    private TrainingRepository trainingRepository;
-    @Autowired
-    private DisciplineRepository disciplineRepository;
-    @Autowired
-    private ExerciceRepository exerciceRepository;
+    private TrainingService trainingService;
 
     /**
      * Récupère la liste de tous les entraînements.
@@ -32,7 +25,7 @@ public class TrainingController {
      */
     @GetMapping
     public Iterable<Training> getTrainings() {
-        return trainingRepository.findAll();
+        return trainingService.getTrainings();
     }
 
     /**
@@ -43,7 +36,7 @@ public class TrainingController {
      */
     @GetMapping("/{id}")
     public Training getTrainingById(@PathVariable int id) {
-        return trainingRepository.findById(id).orElse(null);
+        return trainingService.getTrainingById(id);
     }
 
     /**
@@ -54,7 +47,7 @@ public class TrainingController {
      */
     @GetMapping("/{id}/exercices")
     public Iterable<Exercice> getTrainingExercices(@PathVariable int id) {
-        return Objects.requireNonNull(trainingRepository.findById(id).orElse(null)).getExercices();
+        return trainingService.getExercicesByTrainingId(id);
     }
 
     /**
@@ -65,11 +58,7 @@ public class TrainingController {
      */
     @PostMapping
     public Training createTraining(@RequestBody Training training) {
-        Discipline discipline = disciplineRepository
-                .findById(training.getDiscipline().getId())
-                .orElseThrow(() -> new RuntimeException("Discipline non trouvée"));
-        training.setDiscipline(discipline);
-        return trainingRepository.save(training);
+        return trainingService.saveTraining(training);
     }
 
     /**
@@ -81,26 +70,7 @@ public class TrainingController {
      */
     @PatchMapping("/{id}")
     public Training patchTraining(@PathVariable int id, @RequestBody Training training) {
-        Training existingTraining = trainingRepository.findById(id).orElse(null);
-        if (existingTraining != null) {
-            if (training.getName() != null) {
-                existingTraining.setName(training.getName());
-            }
-            if (training.getDescription() != null) {
-                existingTraining.setDescription(training.getDescription());
-            }
-            if (training.getTime() != 0) {
-                existingTraining.setTime(training.getTime());
-            }
-            if (training.getDiscipline() != null) {
-                Discipline discipline = disciplineRepository
-                        .findById(training.getDiscipline().getId())
-                        .orElseThrow(() -> new RuntimeException("Discipline non trouvée"));
-                existingTraining.setDiscipline(discipline);
-            }
-            return trainingRepository.save(existingTraining);
-        }
-        return null;
+        return trainingService.patchTraining(id, training);
     }
 
     /**
@@ -112,14 +82,7 @@ public class TrainingController {
      */
     @PutMapping("/{id}")
     public Training updateTraining(@PathVariable int id, @RequestBody Training training) {
-        Training existingTraining = trainingRepository.findById(id).orElse(null);
-        if (existingTraining != null) {
-            existingTraining.setName(training.getName());
-            existingTraining.setDescription(training.getDescription());
-            existingTraining.setTime(training.getTime());
-            return trainingRepository.save(existingTraining);
-        }
-        return null;
+        return trainingService.updateTraining(id, training);
     }
 
     /**
@@ -129,6 +92,6 @@ public class TrainingController {
      */
     @DeleteMapping("/{id}")
     public void deleteTraining(@PathVariable int id) {
-        trainingRepository.deleteById(id);
+        trainingService.deleteTrainingById(id);
     }
 }
