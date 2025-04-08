@@ -1,12 +1,9 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.Services.Strategies.Exercice.StatisticsExerciceInterface;
-import ca.usherbrooke.trainingapi.Services.Strategies.Training.StatisticsTrainingMatrixFactory;
+import ca.usherbrooke.trainingapi.Services.Factories.StatisticsFactory;
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.StatisticType;
 import ca.usherbrooke.trainingapi.model.Training;
-import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
-import ca.usherbrooke.trainingapi.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +15,7 @@ import java.util.Map;
 public class StatisticsController {
 
     @Autowired
-    private TrainingRepository trainingRepository;
-    @Autowired
-    private ExerciceRepository exerciceRepository;
-    @Autowired
-    private StatisticsTrainingMatrixFactory statisticsTrainingService;
-    @Autowired
-    private StatisticsExerciceInterface statisticsExerciceService;
+    private StatisticsFactory statisticsFactory;
 
     /**
      * Retourne les statistiques d'un entraînement sous forme de matrice.
@@ -36,10 +27,7 @@ public class StatisticsController {
      */
     @GetMapping("/trainings/matrix")
     public Map<LocalDate, Boolean> getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        Training train = trainingRepository
-                .findById(training.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Aucun entraînement trouvé avec cet ID: " + training.getId()));
-        return statisticsTrainingService.retournerStatistiques(train, startDate, endDate);
+        return (Map<LocalDate, Boolean>) statisticsFactory.getStatistics("training", training.getId(), startDate.toString(), endDate.toString(), 0);
     }
 
     /**
@@ -51,10 +39,7 @@ public class StatisticsController {
      */
     @GetMapping("/exercices/curve/nbTimes")
     public Map<LocalDate, Map<StatisticType, String>> getStatisticsExerciceCurveNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
-        Exercice exo = exerciceRepository
-                .findById(exercice.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Aucun exercice trouvé avec cet ID: " + exercice.getId()));
-        return (Map<LocalDate, Map<StatisticType, String>>) statisticsExerciceService.retournerStatistiques(exo, nbTime);
+        return (Map<LocalDate, Map<StatisticType, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), null, null, nbTime);
     }
 
     /**
@@ -67,10 +52,7 @@ public class StatisticsController {
      */
     @GetMapping("/exercices/curve/dates")
     public Map<LocalDate, Map<StatisticType, String>> getStatisticsExerciceCurveDates(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        Exercice exo = exerciceRepository
-                .findById(exercice.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Aucun exercice trouvé avec cet ID: " + exercice.getId()));
-        return (Map<LocalDate, Map<StatisticType, String>>) statisticsExerciceService.retournerStatistiques(exo, startDate, endDate);
+        return (Map<LocalDate, Map<StatisticType, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), startDate.toString(), endDate.toString(), 0);
     }
 
 
