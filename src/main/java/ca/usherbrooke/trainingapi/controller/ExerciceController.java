@@ -1,9 +1,7 @@
 package ca.usherbrooke.trainingapi.controller;
 
+import ca.usherbrooke.trainingapi.Services.ExerciceService;
 import ca.usherbrooke.trainingapi.model.Exercice;
-import ca.usherbrooke.trainingapi.model.Training;
-import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
-import ca.usherbrooke.trainingapi.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/exercices")
 public class ExerciceController {
 
-    /**
-     * Repository pour accéder aux données des exercices.
-     */
     @Autowired
-    private ExerciceRepository exerciceRepository;
-
-    /**
-     * Repository pour accéder aux données des entraînements.
-     */
-    @Autowired
-    private TrainingRepository trainingRepository;
+    private ExerciceService exerciceService;
 
     /**
      * Récupère la liste de tous les exercices.
@@ -33,7 +22,7 @@ public class ExerciceController {
      */
     @GetMapping
     public Iterable<Exercice> getExercices() {
-        return exerciceRepository.findAll();
+        return exerciceService.getAllExercices();
     }
 
     /**
@@ -44,7 +33,7 @@ public class ExerciceController {
      */
     @GetMapping("/{id}")
     public Exercice getExerciceById(@PathVariable int id) {
-        return exerciceRepository.findById(id).orElse(null);
+        return exerciceService.getExerciceById(id);
     }
 
     /**
@@ -55,11 +44,7 @@ public class ExerciceController {
      */
     @PostMapping
     public Exercice createExercice(@RequestBody Exercice exercice) {
-        Training training = trainingRepository
-                .findById(exercice.getTraining().getId())
-                .orElseThrow(() -> new RuntimeException("Entrainement non trouvé"));
-        exercice.setTraining(training);
-        return exerciceRepository.save(exercice);
+        return exerciceService.saveExercice(exercice);
     }
 
     /**
@@ -71,13 +56,7 @@ public class ExerciceController {
      */
     @PutMapping("/{id}")
     public Exercice updateExercice(@PathVariable int id, @RequestBody Exercice exercice) {
-        Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
-        if (existingExercice != null) {
-            existingExercice.setName(exercice.getName());
-            existingExercice.setDescription(exercice.getDescription());
-            return exerciceRepository.save(existingExercice);
-        }
-        return null;
+        return exerciceService.updateExercice(id, exercice);
     }
 
     /**
@@ -89,30 +68,7 @@ public class ExerciceController {
      */
     @PatchMapping("/{id}")
     public Exercice patchExercice(@PathVariable int id, @RequestBody Exercice exercice) {
-        Exercice existingExercice = exerciceRepository.findById(id).orElse(null);
-        if (existingExercice != null) {
-            if (exercice.getName() != null) {
-                existingExercice.setName(exercice.getName());
-            }
-            if (exercice.getDescription() != null) {
-                existingExercice.setDescription(exercice.getDescription());
-            }
-            if (exercice.getTime() > 0) {
-                existingExercice.setTime(exercice.getTime());
-            }
-            if(exercice.getRepetitions() >= 0) {
-                existingExercice.setRepetitions(exercice.getRepetitions());
-            }
-            if(exercice.getTraining() != null) {
-                Training training = trainingRepository
-                        .findById(exercice.getTraining().getId())
-                        .orElseThrow(() -> new RuntimeException("Entrainement non trouvé"));
-                existingExercice.setTraining(training);
-            }
-
-            return exerciceRepository.save(existingExercice);
-        }
-        return null;
+        return exerciceService.updateExerciceByPatch(id, exercice);
     }
 
     /**
@@ -122,6 +78,6 @@ public class ExerciceController {
      */
     @DeleteMapping("/{id}")
     public void deleteExercice(@PathVariable int id) {
-        exerciceRepository.deleteById(id);
+        exerciceService.deleteExercice(id);
     }
 }
