@@ -1,12 +1,10 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.Services.Strategies.DisciplineService;
+import ca.usherbrooke.trainingapi.Services.DisciplineService;
 import ca.usherbrooke.trainingapi.model.Discipline;
 import ca.usherbrooke.trainingapi.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 /**
  * Contrôleur pour gérer les opérations CRUD sur les disciplines.
