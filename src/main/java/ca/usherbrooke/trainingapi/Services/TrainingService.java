@@ -100,6 +100,6 @@ public class TrainingService {
      */
     public void deleteTrainingById(int id) {
         Training training = getTrainingById(id);
-        trainingRepository.delete(training);
+        trainingRepository.deleteById(id);
     }
 }

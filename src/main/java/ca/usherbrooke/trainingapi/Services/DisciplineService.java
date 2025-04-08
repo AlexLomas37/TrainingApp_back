@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.Services.Strategies;
+package ca.usherbrooke.trainingapi.Services;
 
 import ca.usherbrooke.trainingapi.model.Discipline;
 import ca.usherbrooke.trainingapi.model.Training;
@@ -97,8 +97,7 @@ public class DisciplineService {
      * @param id l'identifiant de la discipline à supprimer
      */
     public void deleteDiscipline(int id) {
-        Discipline discipline = getDisciplineById(id);
-        disciplineRepository.delete(discipline);
+        disciplineRepository.deleteById(id);
     }
 
 
