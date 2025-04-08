@@ -1,9 +1,7 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.model.Training;
+import ca.usherbrooke.trainingapi.Services.TrainingSessionService;
 import ca.usherbrooke.trainingapi.model.TrainingSession;
-import ca.usherbrooke.trainingapi.repository.TrainingRepository;
-import ca.usherbrooke.trainingapi.repository.TrainingSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class TrainingSessionController {
 
     @Autowired
-    private TrainingSessionRepository trainingSessionRepository;
-    @Autowired
-    private TrainingRepository trainingRepository;
+    private TrainingSessionService trainingSessionService;
 
     /**
      * Récupère la liste de toutes les sessions d'entraînement.
@@ -22,7 +18,7 @@ public class TrainingSessionController {
      */
     @GetMapping("/training-sessions")
     public Iterable<TrainingSession> getTrainingSessions() {
-        return trainingSessionRepository.findAll();
+        return trainingSessionService.getTrainingSessions();
     }
 
     /**
@@ -33,7 +29,7 @@ public class TrainingSessionController {
      */
     @GetMapping("/training-sessions/{id}")
     public TrainingSession getTrainingSessionById(@PathVariable int id) {
-        return trainingSessionRepository.findById(id).orElse(null);
+        return trainingSessionService.getTrainingSessionById(id);
     }
 
     /**
@@ -44,7 +40,7 @@ public class TrainingSessionController {
      */
     @GetMapping("/training-sessions/training/{idTraining}")
     public Iterable<TrainingSession> getTrainingSessionsByTrainingId(@PathVariable int idTraining) {
-        return trainingSessionRepository.findByTrainingId(idTraining);
+        return trainingSessionService.getTrainingSessionsByTrainingId(idTraining);
     }
 
     /**
@@ -55,11 +51,7 @@ public class TrainingSessionController {
      */
     @PostMapping("/training-sessions")
     public TrainingSession createTrainingSession(@RequestBody TrainingSession trainingSession) {
-        Training training = trainingRepository
-                .findById(trainingSession.getTraining().getId())
-                .orElseThrow(() -> new RuntimeException("Entraînement non trouvé"));
-        trainingSession.setTraining(training);
-        return trainingSessionRepository.save(trainingSession);
+        return trainingSessionService.saveTrainingSession(trainingSession);
     }
 
     /**
@@ -71,13 +63,7 @@ public class TrainingSessionController {
      */
     @PutMapping("/training-sessions/{id}")
     public TrainingSession updateTrainingSession(@PathVariable int id, @RequestBody TrainingSession trainingSession) {
-        TrainingSession existingSession = trainingSessionRepository.findById(id).orElse(null);
-        if (existingSession != null) {
-            existingSession.setStart(trainingSession.getStart());
-            existingSession.setEnd(trainingSession.getEnd());
-            return trainingSessionRepository.save(existingSession);
-        }
-        return null;
+        return trainingSessionService.updateTrainingSession(trainingSession);
     }
 
     /**
@@ -89,17 +75,7 @@ public class TrainingSessionController {
      */
     @PatchMapping("/training-sessions/{id}")
     public TrainingSession patchTrainingSession(@PathVariable int id, @RequestBody TrainingSession trainingSession) {
-        TrainingSession existingSession = trainingSessionRepository.findById(id).orElse(null);
-        if (existingSession != null) {
-            if (trainingSession.getStart() != null) {
-                existingSession.setStart(trainingSession.getStart());
-            }
-            if (trainingSession.getEnd() != null) {
-                existingSession.setEnd(trainingSession.getEnd());
-            }
-            return trainingSessionRepository.save(existingSession);
-        }
-        return null;
+        return trainingSessionService.updateTrainingSessionByPatch(id, trainingSession);
     }
 
     /**
@@ -109,6 +85,6 @@ public class TrainingSessionController {
      */
     @DeleteMapping("/training-sessions/{id}")
     public void deleteTrainingSession(@PathVariable int id) {
-        trainingSessionRepository.deleteById(id);
+        trainingSessionService.deleteTrainingSession(id);
     }
 }
