@@ -1,8 +1,8 @@
 package ca.usherbrooke.trainingapi.controller;
 
+import ca.usherbrooke.trainingapi.Services.Strategies.DisciplineService;
 import ca.usherbrooke.trainingapi.model.Discipline;
 import ca.usherbrooke.trainingapi.model.Training;
-import ca.usherbrooke.trainingapi.repository.DisciplineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.Objects;
 public class DisciplineController {
 
     @Autowired
-    private DisciplineRepository disciplineRepository;
+    private DisciplineService disciplineService;
 
     /**
      * Récupère la liste de toutes les disciplines.
@@ -25,7 +25,7 @@ public class DisciplineController {
      */
     @GetMapping
     public Iterable<Discipline> getDisciplines() {
-        return disciplineRepository.findAll();
+        return disciplineService.getAllDisciplines();
     }
 
     /**
@@ -36,7 +36,7 @@ public class DisciplineController {
      */
     @PostMapping
     public Discipline createDiscipline(@RequestBody Discipline discipline) {
-        return disciplineRepository.save(discipline);
+        return disciplineService.saveDiscipline(discipline);
     }
 
     /**
@@ -47,7 +47,7 @@ public class DisciplineController {
      */
     @GetMapping("/{id}")
     public Discipline getDisciplineById(@PathVariable int id) {
-        return disciplineRepository.findById(id).orElse(null);
+        return disciplineService.getDisciplineById(id);
     }
 
     /**
@@ -59,14 +59,7 @@ public class DisciplineController {
      */
     @PutMapping("/{id}")
     public Discipline updateDiscipline(@PathVariable int id, @RequestBody Discipline discipline) {
-        Discipline existingDiscipline = disciplineRepository.findById(id).orElse(null);
-        if (existingDiscipline != null) {
-            existingDiscipline.setName(discipline.getName());
-            existingDiscipline.setTrainings(discipline.getTrainings());
-            existingDiscipline.setDescription(discipline.getDescription());
-            return disciplineRepository.save(existingDiscipline);
-        }
-        return null;
+        return disciplineService.updateDiscipline(id, discipline);
     }
 
     /**
@@ -78,20 +71,7 @@ public class DisciplineController {
      */
     @PatchMapping("/{id}")
     public Discipline patchDiscipline(@PathVariable int id, @RequestBody Discipline discipline) {
-        Discipline existingDiscipline = disciplineRepository.findById(id).orElse(null);
-        if (existingDiscipline != null) {
-            if (discipline.getName() != null) {
-                existingDiscipline.setName(discipline.getName());
-            }
-            if (discipline.getTrainings() != null) {
-                existingDiscipline.setTrainings(discipline.getTrainings());
-            }
-            if (discipline.getDescription() != null) {
-                existingDiscipline.setDescription(discipline.getDescription());
-            }
-            return disciplineRepository.save(existingDiscipline);
-        }
-        return null;
+        return disciplineService.updateDisciplineByPatch(id, discipline);
     }
 
     /**
@@ -101,7 +81,7 @@ public class DisciplineController {
      */
     @DeleteMapping("/{id}")
     public void deleteDiscipline(@PathVariable int id) {
-        disciplineRepository.deleteById(id);
+        disciplineService.deleteDiscipline(id);
     }
 
     /**
@@ -112,6 +92,6 @@ public class DisciplineController {
      */
     @GetMapping("/{id}/trainings")
     public Iterable<Training> getDisciplineTrainings(@PathVariable int id) {
-        return Objects.requireNonNull(disciplineRepository.findById(id).orElse(null)).getTrainings();
+        return disciplineService.getTrainingsByDisciplineId(id);
     }
 }
