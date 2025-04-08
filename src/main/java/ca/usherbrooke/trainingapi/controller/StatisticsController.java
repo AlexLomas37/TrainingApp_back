@@ -2,7 +2,7 @@ package ca.usherbrooke.trainingapi.controller;
 
 import ca.usherbrooke.trainingapi.Services.Factories.StatisticsFactory;
 import ca.usherbrooke.trainingapi.model.Exercice;
-import ca.usherbrooke.trainingapi.model.StatisticType;
+import ca.usherbrooke.trainingapi.model.StatisticMetric;
 import ca.usherbrooke.trainingapi.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +38,8 @@ public class StatisticsController {
      * @return une carte contenant les dates et les statistiques d'accruacy
      */
     @GetMapping("/exercices/curve/nbTimes")
-    public Map<LocalDate, Map<StatisticType, String>> getStatisticsExerciceCurveNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
-        return (Map<LocalDate, Map<StatisticType, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), null, null, nbTime);
+    public Map<LocalDate, Map<StatisticMetric, String>> getStatisticsExerciceCurveNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
+        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), null, null, nbTime);
     }
 
     /**
@@ -51,8 +51,8 @@ public class StatisticsController {
      * @return une carte contenant les dates et les statistiques d'un exercice
      */
     @GetMapping("/exercices/curve/dates")
-    public Map<LocalDate, Map<StatisticType, String>> getStatisticsExerciceCurveDates(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        return (Map<LocalDate, Map<StatisticType, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), startDate.toString(), endDate.toString(), 0);
+    public Map<LocalDate, Map<StatisticMetric, String>> getStatisticsExerciceCurveDates(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), startDate.toString(), endDate.toString(), 0);
     }
 
 

@@ -25,7 +25,7 @@ public class ExerciceSession {
     @ElementCollection
     @MapKeyColumn(name = "type_de_stat")
     @Column(name = "valeur")
-    private Map<StatisticType, String> statisticsMap;
+    private Map<StatisticMetric, String> statisticsMap;
 
     /**
      * Constructeur par défaut.
@@ -47,7 +47,7 @@ public class ExerciceSession {
      * @param end la date et l'heure de fin de la session
      * @param statistics la liste des statistiques associées à cette session
      */
-    public ExerciceSession(Exercice exercice, LocalDateTime start, LocalDateTime end, Map<StatisticType, String> statistics, TrainingSession trainingSession) {
+    public ExerciceSession(Exercice exercice, LocalDateTime start, LocalDateTime end, Map<StatisticMetric, String> statistics, TrainingSession trainingSession) {
         this.exercice = exercice;
         this.start = start;
         this.end = end;
@@ -141,7 +141,7 @@ public class ExerciceSession {
      *
      * @return la liste des statistiques
      */
-    public Map<StatisticType, String> getStatisticsMap() {
+    public Map<StatisticMetric, String> getStatisticsMap() {
         return statisticsMap;
     }
 
@@ -150,7 +150,7 @@ public class ExerciceSession {
      *
      * @param statistics la liste des statistiques à associer
      */
-    public void setStatisticsMap(Map<StatisticType, String> statistics) {
+    public void setStatisticsMap(Map<StatisticMetric, String> statistics) {
         this.statisticsMap = statistics;
     }
 
