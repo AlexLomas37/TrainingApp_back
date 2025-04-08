@@ -1,11 +1,7 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.model.Exercice;
+import ca.usherbrooke.trainingapi.Services.ExerciceSessionService;
 import ca.usherbrooke.trainingapi.model.ExerciceSession;
-import ca.usherbrooke.trainingapi.model.TrainingSession;
-import ca.usherbrooke.trainingapi.repository.ExerciceRepository;
-import ca.usherbrooke.trainingapi.repository.ExerciceSessionRepository;
-import ca.usherbrooke.trainingapi.repository.TrainingSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class ExerciceSessionController {
 
     @Autowired
-    private ExerciceSessionRepository exerciceSessionRepository;
-    @Autowired
-    private ExerciceRepository exerciceRepository;
-    @Autowired
-    private TrainingSessionRepository trainingSessionRepository;
+    private ExerciceSessionService exerciceSessionService;
 
     /**
      * Récupère la liste de toutes les sessions d'exercice.
@@ -26,7 +18,7 @@ public class ExerciceSessionController {
      */
     @GetMapping("/exercice-sessions")
     public Iterable<ExerciceSession> getExerciceSessions() {
-        return exerciceSessionRepository.findAll();
+        return exerciceSessionService.getExerciceSessions();
     }
 
     /**
@@ -37,12 +29,18 @@ public class ExerciceSessionController {
      */
     @GetMapping("/exercice-sessions/{id}")
     public ExerciceSession getExerciceSessionById(@PathVariable int id) {
-        return exerciceSessionRepository.findById(id).orElse(null);
+        return exerciceSessionService.getExerciceSessionById(id);
     }
 
+    /**
+     * Récupère la liste des sessions d'exercice associées à un exercice.
+     *
+     * @param idExo l'identifiant de l'exercice
+     * @return les sessions d'exercice associées à l'exercice
+     */
     @GetMapping("/exercice-sessions/exercice/{idExo}")
     public Iterable<ExerciceSession> getExerciceSessionsByExoId(@PathVariable int idExo) {
-        return exerciceSessionRepository.findByExerciceId(idExo);
+        return exerciceSessionService.getExercicesSessionsByExoId(idExo);
     }
 
     /*@GetMapping("/exercice-sessions/training-session/{idTrainingSession}")
@@ -50,24 +48,24 @@ public class ExerciceSessionController {
         //return exerciceSessionRepository.findByTrainingSessionId(idTrainingSession);
     }*/
 
+    /**
+     * Crée une nouvelle session d'exercice.
+     *
+     * @param exerciceSession la session d'exercice à créer
+     * @return la session d'exercice créée
+     */
     @PostMapping("/exercice-sessions")
     public ExerciceSession createExerciceSession(@RequestBody ExerciceSession exerciceSession) {
-        Exercice exercice = exerciceRepository
-                .findById(exerciceSession.getExercice().getId())
-                .orElseThrow(() -> new RuntimeException("Exercice non trouvé"));
-        exerciceSession.setExercice(exercice);
-        TrainingSession trainingSession = trainingSessionRepository
-                .findById(exerciceSession.getTrainingSession().getId())
-                .orElseThrow(() -> new RuntimeException("Session d'entraînement non trouvée"));
-        exerciceSession.setTrainingSession(trainingSession);
-        return exerciceSessionRepository.save(exerciceSession);
+        return exerciceSessionService.saveExerciceSession(exerciceSession);
     }
 
+    /**
+     * Met à jour une session d'exercice existante.
+     *
+     * @param id l'identifiant de la session d'exercice à mettre à jour
+     */
     @DeleteMapping("/exercice-sessions/{id}")
     public void deleteExerciceSession(@PathVariable int id) {
-        ExerciceSession exerciceSession = exerciceSessionRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Session d'exercice non trouvée"));
-        exerciceSessionRepository.delete(exerciceSession);
+        exerciceSessionService.deleteExerciceSession(id);
     }
 }
