@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.Services.Strategies.Exercice;
+package ca.usherbrooke.trainingapi.Services.Strategies;
 
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.ExerciceSession;
