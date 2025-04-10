@@ -27,18 +27,26 @@ public class StatisticsFactoryProvider implements StatisticsFactoryInterface {
     }
 
     /**
+     * Cette méthode ne doit pas être utilisée directement, utilisez plutôt getStatisticsStrategyByObject.
+     * @return Une exeption indiquant que cette méthode ne doit pas être utilisée.
+     */
+    @Override
+    public StatisticsStrategyInterface getStatisticsStrategy(StatisticType type) {
+        throw new UnsupportedOperationException("Cette méthode ne doit pas être utilisée directement, utilisez plutôt getStatisticsStrategy avec l'objet Training/Exercice à étudier en paramètre.");
+    }
+
+    /**
      * Récupère la stratégie de statistiques appropriée en fonction de l'objet et du type de statistique.
      *
      * @param objectToHaveStats L'objet pour lequel on veut obtenir des statistiques.
      * @param type Le type de statistique souhaité.
      * @return La stratégie de statistiques appropriée.
      */
-    @Override
     public StatisticsStrategyInterface getStatisticsStrategy(Object objectToHaveStats, StatisticType type) {
         if(objectToHaveStats instanceof Training) {
-            return getFactory(StatisticsTrainingFactoryImpl.class).getStatisticsStrategy(objectToHaveStats, type);
+            return getFactory(StatisticsTrainingFactoryImpl.class).getStatisticsStrategy(type);
         } else if(objectToHaveStats instanceof Exercice) {
-            return getFactory(StatisticsExerciceFactoryImpl.class).getStatisticsStrategy(objectToHaveStats, type);
+            return getFactory(StatisticsExerciceFactoryImpl.class).getStatisticsStrategy(type);
         } else {
             throw new IllegalArgumentException("L'objet doit être de type Training ou Exercice.");
         }
