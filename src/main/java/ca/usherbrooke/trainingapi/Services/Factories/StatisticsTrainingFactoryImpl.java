@@ -2,6 +2,7 @@ package ca.usherbrooke.trainingapi.Services.Factories;
 
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingMatrixStrategy;
+import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingTotalStrategy;
 import ca.usherbrooke.trainingapi.model.StatisticType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class StatisticsTrainingFactoryImpl implements StatisticsFactoryInterface
         switch (type) {
             case HEATMAP -> {
                 return getStrategy(StatisticsTrainingMatrixStrategy.class);
+            }
+            case TOTAL -> {
+                return getStrategy(StatisticsTrainingTotalStrategy.class);
             }
             default ->
                 throw new IllegalArgumentException("Type de statistique non valide");
