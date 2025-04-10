@@ -25,15 +25,18 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
      */
     private Map<LocalDate, Map<StatisticMetric, String>> setStatisticsMap(List<ExerciceSession> sessions) {
         Map<LocalDate, Map<StatisticMetric, String>> statisticsMap = new HashMap<>();
+        // Parcours de chaque sesion d'exercice
         for (ExerciceSession session : sessions) {
             LocalDate dateSession = session.getStart().toLocalDate();
 
             Map<StatisticMetric, String> statsMapByExercice = new HashMap<>();
+            // Parcours de chaque statistique de la session d'exercice
             for (Map.Entry<StatisticMetric, String> entry : session.getStatisticsMap().entrySet()) {
                 StatisticMetric type = entry.getKey();
                 String value = entry.getValue();
                 statsMapByExercice.merge(type, value, (oldValue, newValue) -> oldValue + " ; " + newValue);
             }
+            // Ajout de la date et des statistiques à la carte
             statisticsMap.merge(dateSession, statsMapByExercice, (existingStats, newStats) -> {
                 newStats.forEach((key, value) ->
                         existingStats.merge(key, value, (oldValue, newValue) -> oldValue + " ; " + newValue)
