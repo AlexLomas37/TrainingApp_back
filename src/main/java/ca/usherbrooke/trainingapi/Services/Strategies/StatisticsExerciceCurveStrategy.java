@@ -19,17 +19,27 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
     private ExerciceSessionService exerciceSessionService;
 
     /**
-     * Cette méthode permet de créer une carte contenant les statistiques d'un exercice.
-     *
-     * @param session La session d'exercice
-     * @return une carte contenant les statistiques d'un exercice
+     * Retourne une carte contenant les statistiques par date pour un ensemble de sessions d'exercice.
+     * @param sessions La liste des sessions d'exercice
+     * @return une carte contenant les dates et les statistiques d'un exercice
      */
-    private Map<StatisticMetric, String> setStatisticsMap(ExerciceSession session) {
-        Map<StatisticMetric, String> statisticsMap = new HashMap<>();
-        for (Map.Entry<StatisticMetric, String> entry : session.getStatisticsMap().entrySet()) {
-            StatisticMetric type = entry.getKey();
-            String value = entry.getValue();
-            statisticsMap.merge(type, value, (oldValue, newValue) -> oldValue + " ; " + newValue);
+    private Map<LocalDate, Map<StatisticMetric, String>> setStatisticsMap(List<ExerciceSession> sessions) {
+        Map<LocalDate, Map<StatisticMetric, String>> statisticsMap = new HashMap<>();
+        for (ExerciceSession session : sessions) {
+            LocalDate dateSession = session.getStart().toLocalDate();
+
+            Map<StatisticMetric, String> statsMapByExercice = new HashMap<>();
+            for (Map.Entry<StatisticMetric, String> entry : session.getStatisticsMap().entrySet()) {
+                StatisticMetric type = entry.getKey();
+                String value = entry.getValue();
+                statsMapByExercice.merge(type, value, (oldValue, newValue) -> oldValue + " ; " + newValue);
+            }
+            statisticsMap.merge(dateSession, statsMapByExercice, (existingStats, newStats) -> {
+                newStats.forEach((key, value) ->
+                        existingStats.merge(key, value, (oldValue, newValue) -> oldValue + " ; " + newValue)
+                );
+                return existingStats;
+            });
         }
         return statisticsMap;
     }
@@ -45,20 +55,9 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
         if (nbTime <= 0) {
             throw new IllegalArgumentException("Le nombre de temps doit être positif.");
         }
-        Map<LocalDate, Map<StatisticMetric, String>> statistiques = new HashMap<>();
 
         List<ExerciceSession> exerciceSessions = exerciceSessionService.getExercicesSessionsByIdExoAndLastXTimes(exercice.getId(), nbTime);
-        if (exerciceSessions.isEmpty()) {
-            System.out.println("Aucune session d'exercice trouvée pour cette période.");
-        } else {
-            for (ExerciceSession session : exerciceSessions) {
-                LocalDate dateSession = session.getStart().toLocalDate();
-                Map<StatisticMetric, String> allStatisticsMap = setStatisticsMap(session);
-                statistiques.put(dateSession, allStatisticsMap);
-            }
-        }
-
-        return statistiques;
+        return setStatisticsMap(exerciceSessions);
     }
 
     /**
@@ -82,17 +81,7 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
 
         Map<LocalDate, Map<StatisticMetric, String>> statistiques = new HashMap<>();
         List<ExerciceSession> exerciceSessions = exerciceSessionService.getExercicesSessionsByDates(exercice.getId(), dateDebut, dateFin);
-        if (exerciceSessions.isEmpty()) {
-            System.out.println("Aucune session d'exercice trouvée pour cette période.");
-        } else {
-            for (ExerciceSession session : exerciceSessions) {
-                LocalDate dateSession = session.getStart().toLocalDate();
-                Map<StatisticMetric, String> allStatisticsMap = setStatisticsMap(session);
-                statistiques.put(dateSession, allStatisticsMap);
-            }
-        }
-
-        return statistiques;
+        return setStatisticsMap(exerciceSessions);
     }
 
     /**
@@ -106,8 +95,7 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
      */
     @Override
     public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
-        if(objectToHaveStats instanceof Exercice) {
-            Exercice exercice = (Exercice) objectToHaveStats;
+        if(objectToHaveStats instanceof Exercice exercice) {
             if (nbTime > 0) {
                 return retournerStatistiques(exercice, nbTime);
             } else {
