@@ -26,7 +26,7 @@ public class StatisticsController {
      * @param endDate La date de fin de la période
      * @return une carte contenant les dates et un booléen indiquant si l'entraînement a été effectué ce jour-là
      */
-    @GetMapping("/trainings/matrix")
+    @GetMapping("/trainings/heatmap")
     public Map<LocalDate, Boolean> getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         return (Map<LocalDate, Boolean>) statisticsFactory.getStatisticsStrategy(training, StatisticType.HEATMAP).retournerStatistiques(training, startDate, endDate, 0);
     }

@@ -1,7 +1,7 @@
 package ca.usherbrooke.trainingapi.Services.Factories;
 
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
-import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingMatrixStrategy;
+import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingHeatmapStrategy;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingTotalStrategy;
 import ca.usherbrooke.trainingapi.model.StatisticType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class StatisticsTrainingFactoryImpl implements StatisticsFactoryInterface
     public StatisticsStrategyInterface getStatisticsStrategy(StatisticType type) {
         switch (type) {
             case HEATMAP -> {
-                return getStrategy(StatisticsTrainingMatrixStrategy.class);
+                return getStrategy(StatisticsTrainingHeatmapStrategy.class);
             }
             case TOTAL -> {
                 return getStrategy(StatisticsTrainingTotalStrategy.class);

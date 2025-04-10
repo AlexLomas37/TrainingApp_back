@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StatisticsTrainingMatrixStrategy implements StatisticsStrategyInterface {
+public class StatisticsTrainingHeatmapStrategy implements StatisticsStrategyInterface {
 
     @Autowired
     private TrainingSessionRepository trainingSessionRepository;
@@ -44,8 +44,8 @@ public class StatisticsTrainingMatrixStrategy implements StatisticsStrategyInter
         if (trainingSessions.isEmpty()) {
             System.out.println("Aucune session d'entraînement trouvée pour cette période.");
         } else {
-            LocalDate currentDate = dateDebut;
-            /*while (!currentDate.isAfter(dateFin)) {
+            /*LocalDate currentDate = dateDebut;
+            while (!currentDate.isAfter(dateFin)) {
                 statistiques.put(currentDate, false);
                 currentDate = currentDate.plusDays(1);
             }*/
