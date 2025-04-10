@@ -5,5 +5,5 @@ import ca.usherbrooke.trainingapi.model.StatisticType;
 
 public interface StatisticsFactoryInterface {
 
-    StatisticsStrategyInterface getStatisticsStrategy(Object objectToHaveStats, StatisticType type);
+    StatisticsStrategyInterface getStatisticsStrategy(StatisticType type);
 }
