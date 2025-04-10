@@ -3,7 +3,6 @@ package ca.usherbrooke.trainingapi.Services.Factories;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingMatrixStrategy;
 import ca.usherbrooke.trainingapi.model.StatisticType;
-import ca.usherbrooke.trainingapi.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,23 +26,17 @@ public class StatisticsTrainingFactoryImpl implements StatisticsFactoryInterface
     /**
      * Récupère la stratégie de statistiques appropriée en fonction de l'objet et du type de statistique.
      *
-     * @param objectToHaveStats L'objet pour lequel on veut obtenir des statistiques.
      * @param type Le type de statistique souhaité.
      * @return La stratégie de statistiques appropriée.
      */
     @Override
-    public StatisticsStrategyInterface getStatisticsStrategy(Object objectToHaveStats, StatisticType type) {
-        if(objectToHaveStats instanceof Training) {
-            switch(type) {
-                case HEATMAP -> {
-                    return getStrategy(StatisticsTrainingMatrixStrategy.class);
-                }
-                default -> {
-                    throw new IllegalArgumentException("Type de statistique non valide");
-                }
+    public StatisticsStrategyInterface getStatisticsStrategy(StatisticType type) {
+        switch (type) {
+            case HEATMAP -> {
+                return getStrategy(StatisticsTrainingMatrixStrategy.class);
             }
-        } else {
-            throw new IllegalArgumentException("L'objet doit être de type Training.");
+            default ->
+                throw new IllegalArgumentException("Type de statistique non valide");
         }
     }
 

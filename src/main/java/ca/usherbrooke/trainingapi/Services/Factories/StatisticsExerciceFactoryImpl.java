@@ -3,7 +3,6 @@ package ca.usherbrooke.trainingapi.Services.Factories;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsExerciceAVGStrategy;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsExerciceCurveStrategy;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
-import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.StatisticType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,25 +27,19 @@ public class StatisticsExerciceFactoryImpl implements StatisticsFactoryInterface
     /**
      * Récupère la stratégie de statistiques appropriée en fonction de l'objet et du type de statistique.
      *
-     * @param objectToHaveStats L'objet pour lequel on veut obtenir des statistiques.
      * @param type Le type de statistique souhaité.
      * @return La stratégie de statistiques appropriée.
      */
     @Override
-    public StatisticsStrategyInterface getStatisticsStrategy(Object objectToHaveStats, StatisticType type) {
-        if(objectToHaveStats instanceof Exercice) {
-            switch(type) {
-                case CURVE -> {
-                    return getStrategy(StatisticsExerciceCurveStrategy.class);
-                }
-                case AVERAGE -> {
-                    return getStrategy(StatisticsExerciceAVGStrategy.class);
-                }
-                default ->
-                    throw new IllegalArgumentException("Type de statistique non valide");
+    public StatisticsStrategyInterface getStatisticsStrategy(StatisticType type) {
+        switch(type) {
+            case CURVE -> {
+                return getStrategy(StatisticsExerciceCurveStrategy.class);
             }
-        } else {
-            throw new IllegalArgumentException("L'objet doit être de type Exercice.");
+            case AVERAGE -> {
+                return getStrategy(StatisticsExerciceAVGStrategy.class);
+            }
+            default -> throw new IllegalArgumentException("Type de statistique non valide");
         }
     }
 
