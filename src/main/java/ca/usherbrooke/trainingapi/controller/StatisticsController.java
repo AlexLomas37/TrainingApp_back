@@ -32,6 +32,17 @@ public class StatisticsController {
     }
 
     /**
+     * Retourne le nombre de fois qu'un entraînement a été effectué.
+     *
+     * @param training L'entrainement pour lequel on veut les statistiques
+     * @return le nombre total de sessions d'entraînement
+     */
+    @GetMapping("/trainings/total")
+    public int getStatisticsTrainingTotal(@RequestParam Training training) {
+        return (int) statisticsFactory.getStatisticsStrategy(training, StatisticType.TOTAL).retournerStatistiques(training, null, null, 0);
+    }
+
+    /**
      * Retourne les nbTime dernières statistiques d'un exercice donné.
      *
      * @param exercice L'id de l'exercice
