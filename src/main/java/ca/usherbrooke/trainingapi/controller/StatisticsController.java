@@ -1,8 +1,9 @@
 package ca.usherbrooke.trainingapi.controller;
 
-import ca.usherbrooke.trainingapi.Services.Factories.StatisticsFactory;
+import ca.usherbrooke.trainingapi.components.StatisticsFactoryProvider;
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.StatisticMetric;
+import ca.usherbrooke.trainingapi.model.StatisticType;
 import ca.usherbrooke.trainingapi.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class StatisticsController {
 
     @Autowired
-    private StatisticsFactory statisticsFactory;
+    private StatisticsFactoryProvider statisticsFactory;
 
     /**
      * Retourne les statistiques d'un entraînement sous forme de matrice.
@@ -27,7 +28,7 @@ public class StatisticsController {
      */
     @GetMapping("/trainings/matrix")
     public Map<LocalDate, Boolean> getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        return (Map<LocalDate, Boolean>) statisticsFactory.getStatistics("training", training.getId(), startDate.toString(), endDate.toString(), 0);
+        return (Map<LocalDate, Boolean>) statisticsFactory.getStatisticsStrategy(training, StatisticType.HEATMAP).retournerStatistiques(training, startDate, endDate, 0);
     }
 
     /**
@@ -39,7 +40,7 @@ public class StatisticsController {
      */
     @GetMapping("/exercices/curve/nbTimes")
     public Map<LocalDate, Map<StatisticMetric, String>> getStatisticsExerciceCurveNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
-        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), null, null, nbTime);
+        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.CURVE).retournerStatistiques(exercice, null, null, nbTime);
     }
 
     /**
@@ -52,7 +53,7 @@ public class StatisticsController {
      */
     @GetMapping("/exercices/curve/dates")
     public Map<LocalDate, Map<StatisticMetric, String>> getStatisticsExerciceCurveDates(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatistics("exercice", exercice.getId(), startDate.toString(), endDate.toString(), 0);
+        return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.CURVE).retournerStatistiques(exercice, startDate, endDate, 0);
     }
 
 
