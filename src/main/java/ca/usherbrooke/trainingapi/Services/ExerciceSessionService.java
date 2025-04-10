@@ -7,6 +7,8 @@ import ca.usherbrooke.trainingapi.repository.ExerciceSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,6 +50,33 @@ public class ExerciceSessionService {
      */
     public List<ExerciceSession> getExercicesSessionsByExoId(int idExo) {
         return (List<ExerciceSession>) exerciceSessionRepository.findByExerciceId(idExo);
+    }
+
+    /**
+     * Récupère la liste des sessions d'exercice associées à un exercice et à une période donnée.
+     *
+     * @param idExo l'identifiant de l'exercice
+     * @param startDate Date de début de la période
+     * @param endDate Date de fin de la période
+     * @return les sessions d'exercice associées à l'exercice et à la période
+     */
+    public List<ExerciceSession> getExercicesSessionsByDates(int idExo, LocalDate startDate, LocalDate endDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+        return (List<ExerciceSession>) exerciceSessionRepository
+                .findByExerciceIdAndDates(idExo, startDateTime, endDateTime);
+    }
+
+    /**
+     * Récupère la liste des dernières sessions d'exercice associées à un exercice.
+     *
+     * @param idExo l'identifiant de l'exercice
+     * @param nbTimes le nombre de dernières sessions à récupérer
+     * @return les dernières sessions d'exercice associées à l'exercice
+     */
+    public List<ExerciceSession> getExercicesSessionsByIdExoAndLastXTimes(int idExo, int nbTimes) {
+        return (List<ExerciceSession>) exerciceSessionRepository
+                .findByExerciceIdAndLastNbTime(idExo, nbTimes);
     }
 
     /**
