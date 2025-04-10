@@ -56,5 +56,30 @@ public class StatisticsController {
         return (Map<LocalDate, Map<StatisticMetric, String>>) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.CURVE).retournerStatistiques(exercice, startDate, endDate, 0);
     }
 
+    /**
+     * Retourne les statistiques d'un exercice pour une période donnée sous forme de Map dans le but d'afficher des graphes.
+     *
+     * @param exercice L'id de l'exercice
+     * @param startDate La date de début de la période
+     * @param endDate La date de fin de la période
+     * @return une carte contenant les dates et les statistiques d'un exercice
+     */
+    @GetMapping("/exercices/avg/dates")
+    public Map<StatisticMetric, Float> getStatisticsExerciceAVG(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return (Map<StatisticMetric, Float>) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.AVERAGE).retournerStatistiques(exercice, startDate, endDate, 0);
+    }
+
+    /**
+     * Retourne les nbTime dernières statistiques d'un exercice donné.
+     *
+     * @param exercice L'id de l'exercice
+     * @param nbTime Le nombre de fois que l'exercice a été effectué trié par date décroissante
+     * @return une carte contenant les dates et les statistiques d'un exercice
+     */
+    @GetMapping("/exercices/avg/nbTimes")
+    public Map<StatisticMetric, Float> getStatisticsExerciceAVGNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
+        return (Map<StatisticMetric, Float>) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.AVERAGE).retournerStatistiques(exercice, null, null, nbTime);
+    }
+
 
 }
