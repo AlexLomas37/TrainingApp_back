@@ -17,7 +17,7 @@ public class ExerciceSessionController {
      * @return la liste des sessions d'exercice
      */
     @GetMapping("/exercice-sessions")
-    public Iterable<ExerciceSession> getExerciceSessions() {
+    public Iterable<ExerciceSession> getAllExerciceSessions() {
         return exerciceSessionService.getExerciceSessions();
     }
 
