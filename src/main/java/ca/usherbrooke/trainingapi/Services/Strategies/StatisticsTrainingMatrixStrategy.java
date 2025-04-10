@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StatisticsTrainingMatrixFactory implements StatisticsTrainingInterface {
+public class StatisticsTrainingMatrixStrategy implements StatisticsStrategyInterface {
 
     @Autowired
     private TrainingSessionRepository trainingSessionRepository;
@@ -26,8 +26,7 @@ public class StatisticsTrainingMatrixFactory implements StatisticsTrainingInterf
      * @param dateFin La date de fin de la période
      * @return une carte contenant les dates et un booléen indiquant si l'entraînement a été effectué ce jour-là
      */
-    @Override
-    public Map<LocalDate, Boolean> retournerStatistiques(Training training, LocalDate dateDebut, LocalDate dateFin) {
+    private Map<LocalDate, Boolean> retournerStatistiques(Training training, LocalDate dateDebut, LocalDate dateFin) {
         if(dateFin.isBefore(dateDebut)) {
             throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
         }
@@ -57,5 +56,24 @@ public class StatisticsTrainingMatrixFactory implements StatisticsTrainingInterf
             System.out.println("Statistiques pour l'entraînement " + training.getId() + " entre " + dateDebut + " et " + dateFin + ":");
         }
         return statistiques;
+    }
+
+    /**
+     * Retourne les jours ou un entraînement à été effectué pour une période donnée.
+     *
+     * @param objectToHaveStats L'objet pour lequel on veut obtenir des statistiques.
+     * @param startDate La date de début de la période
+     * @param endDate La date de fin de la période
+     * @param nbTime Le nombre de fois que l'entraînement a été effectué trié par date décroissante
+     * @return une carte contenant les dates et un booléen indiquant si l'entraînement a été effectué ce jour-là
+     */
+    @Override
+    public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+        if(objectToHaveStats instanceof Training) {
+            Training training = (Training) objectToHaveStats;
+            return retournerStatistiques(training, startDate, endDate);
+        } else {
+            throw new IllegalArgumentException("L'objet doit être de type Entraînement.");
+        }
     }
 }
