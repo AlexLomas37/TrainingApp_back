@@ -34,12 +34,14 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
             for (Map.Entry<StatisticMetric, String> entry : session.getStatisticsMap().entrySet()) {
                 StatisticMetric type = entry.getKey();
                 String value = entry.getValue();
-                statsMapByExercice.merge(type, value, (oldValue, newValue) -> oldValue + " ; " + newValue);
+                // Inversion de l'ordre des valeurs lors du merge
+                statsMapByExercice.merge(type, value, (oldValue, newValue) -> newValue + " ; " + oldValue);
             }
             // Ajout de la date et des statistiques à la carte
             statisticsMap.merge(dateSession, statsMapByExercice, (existingStats, newStats) -> {
                 newStats.forEach((key, value) ->
-                        existingStats.merge(key, value, (oldValue, newValue) -> oldValue + " ; " + newValue)
+                        // Inversion de l'ordre des valeurs lors du merge
+                        existingStats.merge(key, value, (oldValue, newValue) -> newValue + " ; " + oldValue)
                 );
                 return existingStats;
             });
