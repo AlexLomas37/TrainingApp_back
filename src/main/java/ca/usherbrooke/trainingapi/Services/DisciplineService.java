@@ -77,6 +77,9 @@ public class DisciplineService {
         if(discipline.getTrainings() != null && !discipline.getTrainings().isEmpty()) {
             existingDiscipline.setTrainings(discipline.getTrainings());
         }
+        if(discipline.getImageLink() != null) {
+            existingDiscipline.setImageLink(discipline.getImageLink());
+        }
         return disciplineRepository.save(existingDiscipline);
     }
 
