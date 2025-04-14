@@ -88,7 +88,10 @@ public class StatisticsExerciceAVGStrategy implements StatisticsStrategyInterfac
      * @return une carte contenant les dates et les statistiques d'un exercice
      */
     @Override
-    public Map<StatisticMetric, Float> retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+    public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
+        }
         if(objectToHaveStats instanceof Exercice) {
             Exercice exercice = (Exercice) objectToHaveStats;
             if (nbTime > 0) {

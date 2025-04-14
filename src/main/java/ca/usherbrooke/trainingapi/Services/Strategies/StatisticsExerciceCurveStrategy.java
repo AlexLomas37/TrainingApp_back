@@ -77,12 +77,6 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
         if(dateDebut == null || dateFin == null) {
             throw new IllegalArgumentException("Date de début et de fin ne peuvent pas être nulles");
         }
-        if(dateFin.isBefore(dateDebut)) {
-            throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
-        }
-        if(dateDebut.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("La date de début ne peut pas être dans le futur.");
-        }
 
         Map<LocalDate, Map<StatisticMetric, String>> statistiques = new HashMap<>();
         List<ExerciceSession> exerciceSessions = exerciceSessionService.getExercicesSessionsByDates(exercice.getId(), dateDebut, dateFin);
@@ -104,6 +98,9 @@ public class StatisticsExerciceCurveStrategy implements StatisticsStrategyInterf
             if (nbTime > 0) {
                 return retournerStatistiques(exercice, nbTime);
             } else {
+                if (startDate.isAfter(endDate)) {
+                    throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
+                }
                 return retournerStatistiques(exercice, startDate, endDate);
             }
         } else {

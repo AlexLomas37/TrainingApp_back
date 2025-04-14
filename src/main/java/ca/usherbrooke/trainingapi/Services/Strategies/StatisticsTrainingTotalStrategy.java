@@ -27,6 +27,9 @@ public class StatisticsTrainingTotalStrategy implements StatisticsStrategyInterf
      */
     @Override
     public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+        if(startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("La date de début ne peut pas être après la date de fin.");
+        }
         int totalNbSessions = 0;
         if(objectToHaveStats instanceof Training training) {
             List<TrainingSession> trainingSessions = (List<TrainingSession>) trainingSessionService

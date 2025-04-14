@@ -3,6 +3,7 @@ package ca.usherbrooke.trainingapi.Services.Strategies;
 import ca.usherbrooke.trainingapi.model.Training;
 import ca.usherbrooke.trainingapi.model.TrainingSession;
 import ca.usherbrooke.trainingapi.repository.TrainingSessionRepository;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,6 @@ public class StatisticsTrainingHeatmapStrategy implements StatisticsStrategyInte
      * @return une carte contenant les dates et un booléen indiquant si l'entraînement a été effectué ce jour-là
      */
     private Map<LocalDate, Boolean> retournerStatistiques(Training training, LocalDate dateDebut, LocalDate dateFin) {
-        if(dateFin.isBefore(dateDebut)) {
-            throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
-        }
-        if(dateDebut.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("La date de début ne peut pas être dans le futur.");
-        }
-
         Map<LocalDate, Boolean> statistiques = new HashMap<>();
 
         LocalDateTime dateDebutDateTime = dateDebut.atStartOfDay();
@@ -69,9 +63,17 @@ public class StatisticsTrainingHeatmapStrategy implements StatisticsStrategyInte
      */
     @Override
     public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+        if(startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("La date de fin ne peut pas être avant la date de début.");
+        }
         if(objectToHaveStats instanceof Training) {
             Training training = (Training) objectToHaveStats;
-            return retournerStatistiques(training, startDate, endDate);
+            if(nbTime > 0) {
+                throw new NotImplementedException("La méthode retournerStatistiques avec nbTime n'est pas implémentée pour les entraînements.");
+                //return retournerStatistiques(training, nbTime);
+            } else {
+                return retournerStatistiques(training, startDate, endDate);
+            }
         } else {
             throw new IllegalArgumentException("L'objet doit être de type Entraînement.");
         }
