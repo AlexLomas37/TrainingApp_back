@@ -19,6 +19,7 @@ public class Discipline {
     private int id;
     private String name;
     private String description;
+    private String imageLink = "logos/logo.svg";
     @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL)
     List<Training> trainings;
 
@@ -46,6 +47,10 @@ public class Discipline {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getImageLink() { return imageLink; }
+
+    public void setImageLink(String imageLink) { this.imageLink = imageLink; }
 
     public List<Training> getTrainings() {
         return this.trainings;
