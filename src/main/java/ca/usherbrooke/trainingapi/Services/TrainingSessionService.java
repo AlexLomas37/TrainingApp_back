@@ -61,8 +61,8 @@ public class TrainingSessionService {
      * @param trainingSession la session d'entraînement à mettre à jour
      * @return la session d'entraînement mise à jour
      */
-    public TrainingSession updateTrainingSession(TrainingSession trainingSession) {
-        TrainingSession existingSession = getTrainingSessionById(trainingSession.getId());
+    public TrainingSession updateTrainingSession(int id, TrainingSession trainingSession) {
+        TrainingSession existingSession = getTrainingSessionById(id);
         existingSession.setStart(trainingSession.getStart());
         existingSession.setEnd(trainingSession.getEnd());
         return saveTrainingSession(existingSession);
