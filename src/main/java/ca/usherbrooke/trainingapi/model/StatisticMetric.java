@@ -5,6 +5,7 @@ public enum StatisticMetric {
     UNKNOWN,
     SCORE,
     PRECISION,
+    RATIO,
     ACCURACY,
     REACTION_TIME,
     DISTANCE,
