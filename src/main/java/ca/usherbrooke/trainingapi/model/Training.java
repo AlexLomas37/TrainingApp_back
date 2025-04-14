@@ -20,6 +20,7 @@ public class Training {
     private String name;
     private String description;
     private int time;
+    private String imageLink = "/logos/logo.svg";
     @ManyToOne
     @JoinColumn(name = "discipline_id")
     private Discipline discipline;
@@ -75,6 +76,10 @@ public class Training {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getImageLink() { return imageLink; }
+
+    public void setImageLink(String imageLink) { this.imageLink = imageLink; }
 
     /**
      * Ajoute un exercice à l'entraînement.
