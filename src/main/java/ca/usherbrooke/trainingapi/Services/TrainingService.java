@@ -99,7 +99,6 @@ public class TrainingService {
      * @param id l'identifiant de l'entraînement à supprimer
      */
     public void deleteTrainingById(int id) {
-        Training training = getTrainingById(id);
         trainingRepository.deleteById(id);
     }
 }
