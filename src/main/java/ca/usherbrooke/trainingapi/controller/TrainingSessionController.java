@@ -63,7 +63,7 @@ public class TrainingSessionController {
      */
     @PutMapping("/training-sessions/{id}")
     public TrainingSession updateTrainingSession(@PathVariable int id, @RequestBody TrainingSession trainingSession) {
-        return trainingSessionService.updateTrainingSession(trainingSession);
+        return trainingSessionService.updateTrainingSession(id, trainingSession);
     }
 
     /**
