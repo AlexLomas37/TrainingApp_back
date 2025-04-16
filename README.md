@@ -19,29 +19,40 @@ Elle est conçue pour être extensible et modulaire, facilitant l'ajout de nouve
 - Factory : Récupère dynamiquement un objet Training ou Exercice pour choisir la stratégie de statistiques à appliquer.
 - Strategy : Permet de choisir la stratégie de statistiques à appliquer sur un entraînement ou un exercice.
 - Decorator : Permet de retourner des exercices/trainings avec leurs statistiques sans changer la structure de base.
-- Repository : Permet de gérer la persistante des données.
 - Command : (Implémenté dans l'application front) Permet de gérer le lancement et l'arret des entrainements.
 - Adapter : (Implémenté dans l'application front) Permet la communication entre les données de l'api et ApexChart.
 - Dependancy Injection : Permet de gérer les dépendances entre les classes et d'injecter des objets dans les classes qui en ont besoin.
+- Repository : Permet de gérer la persistante des données.
 
 ## Installation
 
 Cette API peut être utilisée avec une interface graphique disponible sur ce dépot git : 
 
 ### Backend
-- Cloner le dépot : `giit clone https://github.com/AlexLomas37/TrainingApp_back.git`
-- Ouvrir le projet dans IntelleJ IDEA
-- Configurer le JDK 17
-- Configurer la base de données H2
-- Lancer le projet ou alors générer un fichier war et le déployer sur un serveur d'application comme Tomcat.
-- Accéder à l'API via http://localhost:8090
+1. Cloner le dépot : 
+```sh
+git clone https://github.com/AlexLomas37/TrainingApp_back.git
+```
+2. Ouvrir le projet dans IntelleJ IDEA
+3. Configurer le JDK 17
+4. Configurer la base de données H2
+5. Lancer le projet ou alors générer un fichier war et le déployer sur un serveur d'application comme Tomcat. 
+6. Accéder à l'API via `http://localhost:8090`
 
 ### Frontend (optionnel)
-- Cloner le dépot : `git clone https://github.com/AlexLomas37/TrainingApp_front.git`
-- Ouvrir un terminal à la racine du projet
-- Lancer la commande `npm install` pour installer les dépendances
-- Lancer la commande `npm run dev` pour démarrer le serveur de développement
-- Accéder à l'application via http://localhost:5000
+1. Cloner le dépôt :
+   ```sh
+   git clone https://github.com/AlexLomas37/TrainingApp_front.git
+   ```
+2. Installer les dépendances :
+   ```sh
+   npm install
+   ```
+3. Démarrer le serveur de développement :
+   ```sh
+   npm run dev
+   ```
+4. Accéder au site web via `http://localhost:3000`
 
 ## Routes
 Lien vers swagger-ui : http://localhost:8090/swagger-ui/index.html
