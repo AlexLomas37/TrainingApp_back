@@ -4,6 +4,7 @@ import ca.usherbrooke.trainingapi.Services.DisciplineService;
 import ca.usherbrooke.trainingapi.model.Discipline;
 import ca.usherbrooke.trainingapi.model.Training;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,7 +22,7 @@ public class DisciplineController {
      *
      * @return la liste des disciplines
      */
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Discipline> getDisciplines() {
         return disciplineService.getAllDisciplines();
     }
@@ -32,7 +33,7 @@ public class DisciplineController {
      * @param discipline la discipline à créer
      * @return la discipline créée
      */
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Discipline createDiscipline(@RequestBody Discipline discipline) {
         return disciplineService.saveDiscipline(discipline);
     }
@@ -43,7 +44,7 @@ public class DisciplineController {
      * @param id l'identifiant de la discipline
      * @return la discipline correspondante ou null
      */
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Discipline getDisciplineById(@PathVariable int id) {
         return disciplineService.getDisciplineById(id);
     }

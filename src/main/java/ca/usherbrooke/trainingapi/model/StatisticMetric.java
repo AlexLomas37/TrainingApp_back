@@ -11,6 +11,7 @@ public enum StatisticMetric {
     DISTANCE,
     TIME,
     SPEED,
+    WEIGHT,
     HEART_RATE,
     POWER,
     TEMPERATURE,
