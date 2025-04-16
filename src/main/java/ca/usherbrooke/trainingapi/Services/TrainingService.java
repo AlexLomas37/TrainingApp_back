@@ -90,6 +90,9 @@ public class TrainingService {
         if (training.getDiscipline() != null) {
             existingTraining.setDiscipline(disciplineService.getDisciplineById(training.getDiscipline().getId()));
         }
+        if (training.getImageLink() != null) {
+            existingTraining.setImageLink(training.getImageLink());
+        }
         return trainingRepository.save(existingTraining);
         }
 
