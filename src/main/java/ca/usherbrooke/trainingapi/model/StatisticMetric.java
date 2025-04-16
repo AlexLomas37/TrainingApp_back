@@ -2,10 +2,9 @@ package ca.usherbrooke.trainingapi.model;
 
 public enum StatisticMetric {
     NONE,
-    UNKNOWN,
     SCORE,
-    PRECISION,
     RATIO,
+    NUMBER,
     ACCURACY,
     REACTION_TIME,
     DISTANCE,
@@ -14,6 +13,5 @@ public enum StatisticMetric {
     WEIGHT,
     HEART_RATE,
     POWER,
-    TEMPERATURE,
-    HUMIDITY,
+    UNKNOWN,
 }
