@@ -1,0 +1,12 @@
+ca.usherbrooke.trainingapi
+ca.usherbrooke.trainingapi.components
+ca.usherbrooke.trainingapi.controller
+ca.usherbrooke.trainingapi.integration.controller
+ca.usherbrooke.trainingapi.model
+ca.usherbrooke.trainingapi.repository
+ca.usherbrooke.trainingapi.Services
+ca.usherbrooke.trainingapi.Services.Decorators
+ca.usherbrooke.trainingapi.Services.Factories
+ca.usherbrooke.trainingapi.Services.Strategies
+ca.usherbrooke.trainingapi.unit.model
+ca.usherbrooke.trainingapi.unit.services
