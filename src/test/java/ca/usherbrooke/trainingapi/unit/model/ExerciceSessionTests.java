@@ -14,11 +14,17 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests pour la classe ExerciceSession.
+ */
 public class ExerciceSessionTests {
     private ExerciceSession session;
     private Exercice exercice;
     private TrainingSession trainingSession;
 
+    /**
+     * Initialisation avant chaque test.
+     */
     @BeforeEach
     public void setup() {
         session = new ExerciceSession();
@@ -28,6 +34,9 @@ public class ExerciceSessionTests {
         session.setTrainingSession(trainingSession);
     }
 
+    /**
+     * Test de l'état initial de la session d'exercice.
+     */
     @Test
     public void testInitialState() {
         assertNull(session.getStart());
@@ -36,6 +45,9 @@ public class ExerciceSessionTests {
         assertTrue(session.getStatisticsMap().isEmpty());
     }
 
+    /**
+     * Test de récupération des dates
+     */
     @Test
     public void testSetAndGetDates() {
         LocalDateTime start = LocalDateTime.now();
@@ -46,6 +58,9 @@ public class ExerciceSessionTests {
         assertEquals(end, session.getEnd());
     }
 
+    /**
+     * Test de récupération de l'exercice
+     */
     @Test
     public void testSetAndGetExercice() {
         Exercice newExercice = mock(Exercice.class);
@@ -53,6 +68,9 @@ public class ExerciceSessionTests {
         assertEquals(newExercice, session.getExercice());
     }
 
+    /**
+     * Test de récupération de la session d'entraînement
+     */
     @Test
     public void testSetAndGetTrainingSession() {
         TrainingSession newTrainingSession = mock(TrainingSession.class);
@@ -60,6 +78,9 @@ public class ExerciceSessionTests {
         assertEquals(newTrainingSession, session.getTrainingSession());
     }
 
+    /**
+     * Test de récupération de la carte des statistiques
+     */
     @Test
     public void testAddStatistic() {
         StatisticMetric metric = mock(StatisticMetric.class);
@@ -68,6 +89,9 @@ public class ExerciceSessionTests {
         assertEquals(value, session.getStatisticsMap().get(metric));
     }
 
+    /**
+     * Test de la suppression d'une statistique
+     */
     @Test
     public void testRemoveStatistic() {
         StatisticMetric metric = mock(StatisticMetric.class);
@@ -77,6 +101,9 @@ public class ExerciceSessionTests {
         assertFalse(session.getStatisticsMap().containsKey(metric));
     }
 
+    /**
+     * Test du constructeur avec paramètres
+     */
     @Test
     public void testConstructorWithParameters() {
         LocalDateTime start = LocalDateTime.now();
