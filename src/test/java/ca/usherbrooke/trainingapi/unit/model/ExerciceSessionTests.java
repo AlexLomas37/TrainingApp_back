@@ -1,5 +1,9 @@
-package ca.usherbrooke.trainingapi.model;
+package ca.usherbrooke.trainingapi.unit.model;
 
+import ca.usherbrooke.trainingapi.model.Exercice;
+import ca.usherbrooke.trainingapi.model.ExerciceSession;
+import ca.usherbrooke.trainingapi.model.StatisticMetric;
+import ca.usherbrooke.trainingapi.model.TrainingSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

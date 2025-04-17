@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.services;
+package ca.usherbrooke.trainingapi.unit.services;
 
 import ca.usherbrooke.trainingapi.Services.ExerciceSessionService;
 import ca.usherbrooke.trainingapi.Services.TrainingSessionService;

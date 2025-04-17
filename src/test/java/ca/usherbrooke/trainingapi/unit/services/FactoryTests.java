@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.services;
+package ca.usherbrooke.trainingapi.unit.services;
 
 import ca.usherbrooke.trainingapi.Services.Factories.StatisticsExerciceFactoryImpl;
 import ca.usherbrooke.trainingapi.Services.Factories.StatisticsTrainingFactoryImpl;

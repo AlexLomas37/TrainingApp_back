@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.controller;
+package ca.usherbrooke.trainingapi.integration.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,6 +12,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 import java.util.Arrays;
+
+import ca.usherbrooke.trainingapi.controller.ExerciceController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

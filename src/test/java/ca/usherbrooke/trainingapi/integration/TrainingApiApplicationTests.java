@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi;
+package ca.usherbrooke.trainingapi.integration;
 
 import ca.usherbrooke.trainingapi.model.*;
 import ca.usherbrooke.trainingapi.repository.*;

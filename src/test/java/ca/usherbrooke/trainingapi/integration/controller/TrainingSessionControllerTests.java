@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.controller;
+package ca.usherbrooke.trainingapi.integration.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import ca.usherbrooke.trainingapi.Services.TrainingSessionService;
+import ca.usherbrooke.trainingapi.controller.TrainingSessionController;
 import ca.usherbrooke.trainingapi.model.TrainingSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

@@ -1,5 +1,6 @@
-package ca.usherbrooke.trainingapi.controller;
+package ca.usherbrooke.trainingapi.integration.controller;
 
+import ca.usherbrooke.trainingapi.controller.ExerciceSessionController;
 import ca.usherbrooke.trainingapi.model.ExerciceSession;
 import ca.usherbrooke.trainingapi.Services.ExerciceSessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;

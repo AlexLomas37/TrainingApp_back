@@ -1,8 +1,9 @@
-package ca.usherbrooke.trainingapi.components;
+package ca.usherbrooke.trainingapi.unit.components;
 
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsExerciceCurveStrategy;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsTrainingHeatmapStrategy;
 import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
+import ca.usherbrooke.trainingapi.components.StatisticsFactoryProvider;
 import ca.usherbrooke.trainingapi.model.Exercice;
 import ca.usherbrooke.trainingapi.model.StatisticType;
 import ca.usherbrooke.trainingapi.model.Training;

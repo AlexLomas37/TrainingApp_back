@@ -1,4 +1,4 @@
-package ca.usherbrooke.trainingapi.controller;
+package ca.usherbrooke.trainingapi.integration.controller;
 
 import ca.usherbrooke.trainingapi.Services.Decorators.ObjectWithStatsDecoratorImpl;
 import ca.usherbrooke.trainingapi.Services.ExerciceService;
