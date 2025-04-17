@@ -35,7 +35,15 @@ git clone https://github.com/AlexLomas37/TrainingApp_back.git
 ```
 2. Ouvrir le projet dans IntelleJ IDEA
 3. Configurer le JDK 17
-4. Configurer la base de données H2
+4. Configurer la base de données
+    - Créer une base de données `training_app_db` dans mysql
+    - Configurer le fichier `application.properties` pour se connecter à la base de données
+    ```properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/training_app_db
+    spring.datasource.username=
+    spring.datasource.password=
+    ```
+   Veuillez à remplir le nom d'utilisateur et le mot de passe de votre base de données mysql.
 5. Lancer le projet ou alors générer un fichier war et le déployer sur un serveur d'application comme Tomcat. 
 6. Accéder à l'API via `http://localhost:8090`
 
