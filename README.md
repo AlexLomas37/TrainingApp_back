@@ -48,6 +48,8 @@ git clone https://github.com/AlexLomas37/TrainingApp_back.git
 6. Accéder à l'API via `http://localhost:8090`
 
 ### Frontend (optionnel)
+Lien vers le dépôt github : https://github.com/AlexLomas37/TrainingApp_back.git
+
 1. Cloner le dépôt :
    ```sh
    git clone https://github.com/AlexLomas37/TrainingApp_front.git
