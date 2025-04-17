@@ -66,6 +66,15 @@ Lien vers le dépôt github : https://github.com/AlexLomas37/TrainingApp_front.g
 
 ## Choix Architecturaux
 
+### Modèles
+`Discipline` : Représente une discipline.
+`Training` : Représente un entraînement.
+`Exercice` : Représente un exercice.
+`TrainingSession` : Représente une session d'entraînement.
+`ExerciseSession` : Représente une session d'exercice.
+`Statistic` : Représente une statistique.
+`StatisticType` : Représente un type de statistique.
+
 ### Structure
 Le projet est structuré de manière à séparer les différentes couches de l'application :
 - `controller` : Contient les classes qui gèrent les requêtes HTTP et les réponses.
@@ -84,6 +93,7 @@ Cette séparation en couche permet de mieux organiser le code et de faciliter la
 - Framework Spring Boot
 - mysql pour la base de données
 - IntelleJ IDEA pour le développement de l'API
+- JUnit 5 et Mockito pour les tests unitaires
 
 ## Analyse de tests
 L'application est testée avec JUnit 5 et Mockito. Les tests sont organisés par couche :
