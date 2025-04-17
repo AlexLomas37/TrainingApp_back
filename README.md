@@ -16,11 +16,11 @@ Elle est conçue pour être extensible et modulaire, facilitant l'ajout de nouve
  - Retour de données statistiques sur les entraînements et des exercices
 
 ## Design pattern implémentés
-- Factory : Récupère dynamiquement un objet Training ou Exercice pour choisir la stratégie de statistiques à appliquer.
-- Strategy : Permet de choisir la stratégie de statistiques à appliquer sur un entraînement ou un exercice.
-- Decorator : Permet de retourner des exercices/trainings avec leurs statistiques sans changer la structure de base.
-- Command : (Implémenté dans l'application front) Permet de gérer le lancement et l'arret des entrainements.
-- Adapter : (Implémenté dans l'application front) Permet la communication entre les données de l'api et ApexChart.
+- Factory : Fournit des stratégies de calcul de statistiques en fonction du type d'objet (Training ou Exercice) et du type de statistique souhaité.
+- Strategy : Adapte la stratégie de calcul statistique à appliquer sur un objet (Training ou Exercice) en fonction du type de statistque souhaité.
+- Decorator : Permet de retourner des exercices/trainings décorés avec leurs statistiques sans changer la structure de base.
+- Command : (Implémenté dans l'application front) Permet de gérer le lancement/la mise en pause/l'arret des entrainements.
+- Adapter : (Implémenté dans l'application front) Permet de convertir les données de l'api vers les diagrammes de la librairie ApexChart.
 - Dependancy Injection : Permet de gérer les dépendances entre les classes et d'injecter des objets dans les classes qui en ont besoin.
 - Repository : Permet de gérer la persistante des données.
 
@@ -53,6 +53,46 @@ git clone https://github.com/AlexLomas37/TrainingApp_back.git
    npm run dev
    ```
 4. Accéder au site web via `http://localhost:3000`
+
+## Choix Architecturaux
+
+### Structure
+Le projet est structuré de manière à séparer les différentes couches de l'application :
+- `controller` : Contient les classes qui gèrent les requêtes HTTP et les réponses.
+- `repository` : Contient les classes qui gèrent l'accès aux données.
+- `model` : Contient les classes qui représentent les données de l'application.
+- `decorator` : Contient les classes qui gèrent les décorateurs de l'application.
+- `strategy` : Contient les classes qui gèrent les stratégies de l'application.
+- `factory` : Contient les classes qui gèrent les fabriques de l'application.
+- `service` : Contient les classes qui gèrent la logique métier de l'application en interagissant avec les modèles.
+- `components` : Contient les classes qui gèrent les composants de l'application.
+
+Cette séparation en couche permet de mieux organiser le code et de faciliter la maintenance de l'application tout en respectant les principes SOLID.
+
+## Technologies
+- Java 17
+- Framework Spring Boot
+- mysql pour la base de données
+- IntelleJ IDEA pour le développement de l'API
+
+## Analyse de tests
+L'application est testée avec JUnit 5 et Mockito. Les tests sont organisés par couche :
+
+- `unit` : Tests unitaires de l'application.
+  - `model` : Tests des modèles de l'application.
+  - `component` : Tests des composants de l'application.
+    - `StatisticsFactoryProviderTests` : Tests de la fabrique de statistiques.
+  - `service` : Tests des services de l'application.
+    - `decorator` : Tests des décorateurs de l'application.
+    - `strategy` : Tests des stratégies de l'application.
+    - `factory` : Tests des fabriques de l'application.
+- `integration` : Tests d'intégration de l'application.
+  - `controller` : Tests des contrôleurs de l'application.
+  - `TrainingApiApplicationTests` : Tests de l'applicaiton en ajoutant des données à la base de données.
+- `e2e` : Tests de bout en bout de l'application (Non présent dans l'API).
+
+### Couverture de tests
+![Couverture des tests](CoverageHtmlReport/couverture_test.png)
 
 ## Routes
 Lien vers swagger-ui : http://localhost:8090/swagger-ui/index.html
@@ -138,12 +178,6 @@ Lien vers swagger-ui : http://localhost:8090/swagger-ui/index.html
 | GET     | /decorators/exercices/{id} | Décore un exercice avec ses statistiques     |
 
 Note : Il y a un fichier postman qui regroupe divers tests de routes à la racine du projet, dans le répertoire `Postman`.
-
-## Technologies
- - Java 17
- - Spring Boot
- - mysql
- - IntelleJ IDEA
 
 ## Date de remise
  17 avril 2025
