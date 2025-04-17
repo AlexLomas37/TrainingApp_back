@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StatisticsTrainingTotalStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.Services.Strategies</a>
+</div>
+
+<h1>Coverage Summary for Class: StatisticsTrainingTotalStrategy (ca.usherbrooke.trainingapi.Services.Strategies)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StatisticsTrainingTotalStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27,3%
+  </span>
+  <span class="absValue">
+    (3/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.Services.Strategies;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.Services.TrainingSessionService;
+&nbsp;import ca.usherbrooke.trainingapi.model.Training;
+&nbsp;import ca.usherbrooke.trainingapi.model.TrainingSession;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class StatisticsTrainingTotalStrategy implements StatisticsStrategyInterface{</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private TrainingSessionService trainingSessionService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne le nombre total de sessions d&#39;entraînement pour un entraînement donné.
+&nbsp;     * (La gestio des dates et du nombre de fois n&#39;est pas nécessaire ici)
+&nbsp;     *
+&nbsp;     * @param objectToHaveStats L&#39;entraînement pour lequel on veut les statistiques
+&nbsp;     * @param startDate La date de début de la période
+&nbsp;     * @param endDate La date de fin de la période
+&nbsp;     * @param nbTime Le nombre de fois que l&#39;entraînement a été effectué
+&nbsp;     * @return Le nombre total de sessions d&#39;entraînement
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Object retournerStatistiques(Object objectToHaveStats, LocalDate startDate, LocalDate endDate, int nbTime) {
+<b class="pc">&nbsp;        if(startDate.isAfter(endDate)) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;La date de début ne peut pas être après la date de fin.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int totalNbSessions = 0;</b>
+<b class="nc">&nbsp;        if(objectToHaveStats instanceof Training training) {</b>
+<b class="nc">&nbsp;            List&lt;TrainingSession&gt; trainingSessions = (List&lt;TrainingSession&gt;) trainingSessionService</b>
+<b class="nc">&nbsp;                    .getTrainingSessionsByTrainingId(training.getId());</b>
+<b class="nc">&nbsp;            if (trainingSessions.isEmpty()) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Aucune session d&#39;entraînement trouvée pour cette période.&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            totalNbSessions = trainingSessions.size();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return totalNbSessions;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>

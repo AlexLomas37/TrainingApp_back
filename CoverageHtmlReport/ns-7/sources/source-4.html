@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ExerciceSessionController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ExerciceSessionController (ca.usherbrooke.trainingapi.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExerciceSessionController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.controller;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.Services.ExerciceSessionService;
+&nbsp;import ca.usherbrooke.trainingapi.model.ExerciceSession;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;public class ExerciceSessionController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ExerciceSessionService exerciceSessionService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la liste de toutes les sessions d&#39;exercice.
+&nbsp;     *
+&nbsp;     * @return la liste des sessions d&#39;exercice
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercice-sessions&quot;)
+&nbsp;    public Iterable&lt;ExerciceSession&gt; getAllExerciceSessions() {
+<b class="fc">&nbsp;        return exerciceSessionService.getExerciceSessions();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère une session d&#39;exercice par son identifiant.
+&nbsp;     *
+&nbsp;     * @param id l&#39;identifiant de la session d&#39;exercice
+&nbsp;     * @return la session d&#39;exercice correspondante ou null
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercice-sessions/{id}&quot;)
+&nbsp;    public ExerciceSession getExerciceSessionById(@PathVariable int id) {
+<b class="fc">&nbsp;        return exerciceSessionService.getExerciceSessionById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la liste des sessions d&#39;exercice associées à un exercice.
+&nbsp;     *
+&nbsp;     * @param idExo l&#39;identifiant de l&#39;exercice
+&nbsp;     * @return les sessions d&#39;exercice associées à l&#39;exercice
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercice-sessions/exercice/{idExo}&quot;)
+&nbsp;    public Iterable&lt;ExerciceSession&gt; getExerciceSessionsByExoId(@PathVariable int idExo) {
+<b class="fc">&nbsp;        return exerciceSessionService.getExercicesSessionsByExoId(idExo);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /*@GetMapping(&quot;/exercice-sessions/training-session/{idTrainingSession}&quot;)
+&nbsp;    public Iterable&lt;ExerciceSession&gt; getExerciceSessionsByTrainingSessionId(@PathVariable int idTrainingSession) {
+&nbsp;        //return exerciceSessionRepository.findByTrainingSessionId(idTrainingSession);
+&nbsp;    }*/
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée une nouvelle session d&#39;exercice.
+&nbsp;     *
+&nbsp;     * @param exerciceSession la session d&#39;exercice à créer
+&nbsp;     * @return la session d&#39;exercice créée
+&nbsp;     */
+&nbsp;    @PostMapping(&quot;/exercice-sessions&quot;)
+&nbsp;    public ExerciceSession createExerciceSession(@RequestBody ExerciceSession exerciceSession) {
+<b class="fc">&nbsp;        return exerciceSessionService.saveExerciceSession(exerciceSession);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Met à jour une session d&#39;exercice existante.
+&nbsp;     *
+&nbsp;     * @param id l&#39;identifiant de la session d&#39;exercice à mettre à jour
+&nbsp;     */
+&nbsp;    @DeleteMapping(&quot;/exercice-sessions/{id}&quot;)
+&nbsp;    public void deleteExerciceSession(@PathVariable int id) {
+<b class="fc">&nbsp;        exerciceSessionService.deleteExerciceSession(id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>

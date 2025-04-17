@@ -1,0 +1,83 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TrainingSessionRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: TrainingSessionRepository (ca.usherbrooke.trainingapi.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">TrainingSessionRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.repository;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.model.TrainingSession;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;
+&nbsp;public interface TrainingSessionRepository extends JpaRepository&lt;TrainingSession, Integer&gt; {
+&nbsp;
+&nbsp;    Iterable&lt;TrainingSession&gt; findByTrainingId(int training_id);
+&nbsp;
+&nbsp;    @Query(&quot;SELECT ts FROM TrainingSession ts WHERE ts.training.id = :trainingId AND ts.start BETWEEN :startDate AND :endDate&quot;)
+&nbsp;    Iterable&lt;TrainingSession&gt; findByDateTrainingSessionBetweenAndTrainingId(LocalDateTime startDate, LocalDateTime endDate, int trainingId);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ExerciceRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ExerciceRepository (ca.usherbrooke.trainingapi.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ExerciceRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.repository;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.model.Exercice;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Repository pour accéder aux données des exercices.
+&nbsp; */
+&nbsp;public interface ExerciceRepository extends JpaRepository&lt;Exercice, Integer&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne la liste des exercices associés à un entraînement.
+&nbsp;     *
+&nbsp;     * @param trainingId l&#39;identifiant de l&#39;entraînement
+&nbsp;     * @return la liste des exercices
+&nbsp;     */
+&nbsp;    List&lt;Exercice&gt; findByTrainingId(int trainingId);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>

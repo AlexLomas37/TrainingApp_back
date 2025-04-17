@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StatisticsController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: StatisticsController (ca.usherbrooke.trainingapi.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StatisticsController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.controller;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.components.StatisticsFactoryProvider;
+&nbsp;import ca.usherbrooke.trainingapi.model.Exercice;
+&nbsp;import ca.usherbrooke.trainingapi.model.StatisticMetric;
+&nbsp;import ca.usherbrooke.trainingapi.model.StatisticType;
+&nbsp;import ca.usherbrooke.trainingapi.model.Training;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/statistics&quot;)
+<b class="fc">&nbsp;public class StatisticsController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private StatisticsFactoryProvider statisticsFactory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne les statistiques d&#39;un entraînement sous forme de matrice.
+&nbsp;     *
+&nbsp;     * @param training L&#39;id de l&#39;entraînement
+&nbsp;     * @param startDate La date de début de la période
+&nbsp;     * @param endDate La date de fin de la période
+&nbsp;     * @return une carte contenant les dates et un booléen indiquant si l&#39;entraînement a été effectué ce jour-là
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/trainings/heatmap&quot;)
+&nbsp;    public Map&lt;LocalDate, Boolean&gt; getStatisticsTrainingMatrix(@RequestParam Training training, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+<b class="nc">&nbsp;        return (Map&lt;LocalDate, Boolean&gt;) statisticsFactory.getStatisticsStrategy(training, StatisticType.HEATMAP).retournerStatistiques(training, startDate, endDate, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne le nombre de fois qu&#39;un entraînement a été effectué.
+&nbsp;     *
+&nbsp;     * @param training L&#39;entrainement pour lequel on veut les statistiques
+&nbsp;     * @return le nombre total de sessions d&#39;entraînement
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/trainings/total&quot;)
+&nbsp;    public int getStatisticsTrainingTotal(@RequestParam Training training) {
+<b class="nc">&nbsp;        return (int) statisticsFactory.getStatisticsStrategy(training, StatisticType.TOTAL).retournerStatistiques(training, null, null, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne les nbTime dernières statistiques d&#39;un exercice donné.
+&nbsp;     *
+&nbsp;     * @param exercice L&#39;id de l&#39;exercice
+&nbsp;     * @param nbTime Le nombre de fois que l&#39;exercice a été effectué trié par date décroissante
+&nbsp;     * @return une carte contenant les dates et les statistiques d&#39;accruacy
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercices/curve/nbTimes&quot;)
+&nbsp;    public Map&lt;LocalDate, Map&lt;StatisticMetric, String&gt;&gt; getStatisticsExerciceCurveNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
+<b class="nc">&nbsp;        return (Map&lt;LocalDate, Map&lt;StatisticMetric, String&gt;&gt;) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.CURVE).retournerStatistiques(exercice, null, null, nbTime);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne les statistiques d&#39;un exercice pour une période donnée sous forme de Map dans le but d&#39;afficher des graphes.
+&nbsp;     *
+&nbsp;     * @param exercice L&#39;id de l&#39;exercice
+&nbsp;     * @param startDate La date de début de la période
+&nbsp;     * @param endDate La date de fin de la période
+&nbsp;     * @return une carte contenant les dates et les statistiques d&#39;un exercice
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercices/curve/dates&quot;)
+&nbsp;    public Map&lt;LocalDate, Map&lt;StatisticMetric, String&gt;&gt; getStatisticsExerciceCurveDates(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+<b class="nc">&nbsp;        return (Map&lt;LocalDate, Map&lt;StatisticMetric, String&gt;&gt;) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.CURVE).retournerStatistiques(exercice, startDate, endDate, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne les statistiques d&#39;un exercice pour une période donnée sous forme de Map dans le but d&#39;afficher des graphes.
+&nbsp;     *
+&nbsp;     * @param exercice L&#39;id de l&#39;exercice
+&nbsp;     * @param startDate La date de début de la période
+&nbsp;     * @param endDate La date de fin de la période
+&nbsp;     * @return une carte contenant les dates et les statistiques d&#39;un exercice
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercices/avg/dates&quot;)
+&nbsp;    public Map&lt;StatisticMetric, Float&gt; getStatisticsExerciceAVG(@RequestParam Exercice exercice, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+<b class="nc">&nbsp;        return (Map&lt;StatisticMetric, Float&gt;) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.AVERAGE).retournerStatistiques(exercice, startDate, endDate, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne les nbTime dernières statistiques d&#39;un exercice donné.
+&nbsp;     *
+&nbsp;     * @param exercice L&#39;id de l&#39;exercice
+&nbsp;     * @param nbTime Le nombre de fois que l&#39;exercice a été effectué trié par date décroissante
+&nbsp;     * @return une carte contenant les dates et les statistiques d&#39;un exercice
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/exercices/avg/nbTimes&quot;)
+&nbsp;    public Map&lt;StatisticMetric, Float&gt; getStatisticsExerciceAVGNbTime(@RequestParam Exercice exercice, @RequestParam int nbTime) {
+<b class="nc">&nbsp;        return (Map&lt;StatisticMetric, Float&gt;) statisticsFactory.getStatisticsStrategy(exercice, StatisticType.AVERAGE).retournerStatistiques(exercice, null, null, nbTime);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>

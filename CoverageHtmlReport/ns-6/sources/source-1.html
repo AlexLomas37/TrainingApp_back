@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StatisticsFactoryProvider</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ca.usherbrooke.trainingapi.components</a>
+</div>
+
+<h1>Coverage Summary for Class: StatisticsFactoryProvider (ca.usherbrooke.trainingapi.components)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StatisticsFactoryProvider</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ca.usherbrooke.trainingapi.components;
+&nbsp;
+&nbsp;import ca.usherbrooke.trainingapi.Services.Factories.StatisticsExerciceFactoryImpl;
+&nbsp;import ca.usherbrooke.trainingapi.Services.Factories.StatisticsFactoryInterface;
+&nbsp;import ca.usherbrooke.trainingapi.Services.Factories.StatisticsTrainingFactoryImpl;
+&nbsp;import ca.usherbrooke.trainingapi.Services.Strategies.StatisticsStrategyInterface;
+&nbsp;import ca.usherbrooke.trainingapi.model.Exercice;
+&nbsp;import ca.usherbrooke.trainingapi.model.StatisticType;
+&nbsp;import ca.usherbrooke.trainingapi.model.Training;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class StatisticsFactoryProvider implements StatisticsFactoryInterface {
+&nbsp;
+&nbsp;    private final List&lt;StatisticsFactoryInterface&gt; statisticsFactories;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur de la classe StatisticsFactoryProvider.
+&nbsp;     * @param statisticsFactories Liste des factories de statistiques.
+&nbsp;     */
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public StatisticsFactoryProvider(List&lt;StatisticsFactoryInterface&gt; statisticsFactories) {</b>
+<b class="fc">&nbsp;        this.statisticsFactories = statisticsFactories;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Cette méthode ne doit pas être utilisée directement, utilisez plutôt getStatisticsStrategyByObject.
+&nbsp;     * @return Une exeption indiquant que cette méthode ne doit pas être utilisée.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public StatisticsStrategyInterface getStatisticsStrategy(StatisticType type) {
+<b class="nc">&nbsp;        throw new UnsupportedOperationException(&quot;Cette méthode ne doit pas être utilisée directement, utilisez plutôt getStatisticsStrategy avec l&#39;objet Training/Exercice à étudier en paramètre.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la stratégie de statistiques appropriée en fonction de l&#39;objet et du type de statistique.
+&nbsp;     *
+&nbsp;     * @param objectToHaveStats L&#39;objet pour lequel on veut obtenir des statistiques.
+&nbsp;     * @param type Le type de statistique souhaité.
+&nbsp;     * @return La stratégie de statistiques appropriée.
+&nbsp;     */
+&nbsp;    public StatisticsStrategyInterface getStatisticsStrategy(Object objectToHaveStats, StatisticType type) {
+<b class="fc">&nbsp;        if(objectToHaveStats instanceof Training) {</b>
+<b class="fc">&nbsp;            return getFactory(StatisticsTrainingFactoryImpl.class).getStatisticsStrategy(type);</b>
+<b class="fc">&nbsp;        } else if(objectToHaveStats instanceof Exercice) {</b>
+<b class="fc">&nbsp;            return getFactory(StatisticsExerciceFactoryImpl.class).getStatisticsStrategy(type);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;L&#39;objet doit être de type Training ou Exercice.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la factory de statistiques appropriée en fonction du type.
+&nbsp;     *
+&nbsp;     * @param type Le type de la factory de statistiques.
+&nbsp;     * @return La factory de statistiques appropriée.
+&nbsp;     */
+&nbsp;    private StatisticsFactoryInterface getFactory(Class type) {
+<b class="fc">&nbsp;        return (StatisticsFactoryInterface) statisticsFactories.stream()</b>
+<b class="fc">&nbsp;                .filter(type::isInstance)</b>
+<b class="fc">&nbsp;                .map(type::cast)</b>
+<b class="fc">&nbsp;                .findFirst()</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Aucune factory trouvée pour le type de statistiques : &quot; + type));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-16 20:44</div>
+</div>
+</body>
+</html>
